@@ -83,7 +83,12 @@ const updateItems = async (req, res) => {
 
     res.status(200).json({ status: 200, message: "update succeeded" });
   } catch (err) {
-    res.status(500).json({ status: 500, message: err, message2: err.message });
+    res.status(500).json({
+      status: 500,
+      data: req.body,
+      message: err,
+      message2: err.message,
+    });
   }
   client.close();
 };
