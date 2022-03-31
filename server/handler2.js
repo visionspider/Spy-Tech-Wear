@@ -38,9 +38,11 @@ const getCompany = async (req, res) => {
     const db = client.db("ecommerce");
     const result = await db.collection("companies").findOne({ _id });
     if (result) {
+      const arr = [];
+      arr.push(result);
       res.status(200).json({
         status: 200,
-        data: result,
+        data: arr,
         message: " get a company succeeded",
       });
     } else {
