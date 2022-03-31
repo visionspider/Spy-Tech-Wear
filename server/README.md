@@ -6,6 +6,24 @@ Backend: the res will always have this structure
 ```json
 res={status:number, data:[ ], message:""}
 
+endpoint(get):providing  information for items collection
+.get("/api/getPagination", getPagination)
+response example:
+{
+	"status": 200,
+	"data": [
+		{
+			"itemsPerPage": 25,
+			"numberOfPage": 14,
+			"numberOfProducts": 348
+		}
+	],
+	"message": "Items retrieved succesfully"
+}
+
+endpoint(get):providing data for 25 items / page, here ":page" is a number (1 to 15), each page will have 25 items
+.get("/api/get-25items/:page", getItems)
+
 endpoint(get):providing data for all items.
 .get("/api/get-items", getItems)
 
