@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import ShowButtonHover from "./ButtonHover";
+
 const Index = () => {
   return (
     // GIFLENS-https://media2.giphy.com/media/Mz6oZpw81uKQg/200.gif
@@ -10,10 +10,13 @@ const Index = () => {
         <>
           <Button to="/armoury/:page">
             <>
-              <Mission>Mission Accepted 👀?</Mission>
+              <Mission>Do you accept this Mission?🔴 👀 🕵🏾‍♀️ </Mission>
             </>
-            <img
+            <Frogs
               src={"https://media0.giphy.com/media/cjiJHyD9Xwd8d6Bb7l/200.gif"}
+            />
+            <BigRedButton
+              src={"https://media1.giphy.com/media/5522aGFLNVRnddYMxJ/200.gif"}
             />
           </Button>
         </>
@@ -44,14 +47,34 @@ const Wrapper = styled.div`
 
 const Button = styled(NavLink)`
   text-decoration: none;
-  background-color: #cbd8df;
   justify-content: center;
   display: flex;
   flex-direction: column;
+  box-shadow: 15px;
 `;
 
 const Mission = styled.h1`
-  color: #9798ac;
+  color: red;
   text-align: center;
   font-size: 45px;
+`;
+
+const BigRedButton = styled.img`
+  z-index: 100;
+  position: absolute;
+  width: 20%;
+  stroke: greenyellow;
+  stroke-width: 5px;
+  :hover {
+    display: none;
+  }
+`;
+
+const Frogs = styled.img`
+  display: none;
+  z-index: 300;
+  width: 50%;
+  :hover {
+    display: block;
+  }
 `;
