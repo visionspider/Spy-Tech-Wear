@@ -5,7 +5,13 @@ const morgan = require("morgan");
 
 const PORT = 4000;
 // Nathan's API file
-const { getItems, getItem, updateItemsNathan } = require("./handler1");
+const {
+  getItems,
+  getItem,
+  updateItemsNathan,
+  getPagination,
+  get25Items,
+} = require("./handler1");
 const { getCompanies, getCompany, updateItems } = require("./handler2");
 
 express()
@@ -30,6 +36,10 @@ express()
 
   // Gets list of all items in database
   .get("/api/get-items", getItems)
+  // Gets list of all items in database
+  .get("/api/get-25items/:page", get25Items)
+  // Gets information on how many pages there should be based on the quantity/page
+  .get("/api/getPagination", getPagination)
   // Gets list of specific item in database
   .get("/api/get-items/:itemId", getItem)
   // Gets list of all companies in database

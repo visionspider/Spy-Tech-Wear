@@ -15,6 +15,8 @@ const options = {
   useUnifiedTopology: true,
 };
 const client = new MongoClient(MONGO_URI, options);
+// How many results per page for .get(item)
+const itemsPerPage = 25;
 
 // Function to get all of the items inside the database
 const getItems = async (req, res) => {
@@ -25,6 +27,90 @@ const getItems = async (req, res) => {
     res.status(200).json({
       status: 200,
       data: listOfItems,
+      message: "Items retrieved succesfully",
+    });
+  } catch {
+    res.status(500).json({
+      status: 500,
+      message: "The server is currently unable to handle this request.",
+    });
+  } finally {
+    // Close connection
+    client.close();
+  }
+};
+
+// Function to return 25 items per page
+const get25Items = async (req, res) => {
+  const { page } = req.params;
+
+  // Make sure that page is a number
+  if (isNaN(parseInt(page))) {
+    return res.status(400).json({
+      status: 400,
+      message: "The page number entered is not a number",
+    });
+  }
+  // If the page number entered is negative
+  else if (parseInt(page) < 0) {
+    return res.status(400).json({
+      status: 400,
+      message: "The page number entered page is negative",
+    });
+  }
+  // All test requirements passed, proceed with the request
+  else {
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const listOfItems = await db
+        .collection(Items_Collection)
+        .find()
+        .sort({ _id: 1 })
+        //sort by id logic
+        .limit(itemsPerPage)
+        // No one goes to page 0 -> need to offset by 1
+        .skip((parseInt(page) - 1) * itemsPerPage)
+        .toArray();
+
+      res.status(200).json({
+        status: 200,
+        data: listOfItems,
+        message: "Items retrieved succesfully",
+      });
+    } catch {
+      res.status(500).json({
+        status: 500,
+        message: "The server is currently unable to handle this request.",
+      });
+    } finally {
+      // Close connection
+      client.close();
+    }
+  }
+};
+
+// Function to know how many pages the frontend needs to display
+const getPagination = async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+
+    const numberOfProducts = await db
+      .collection(Items_Collection)
+      .estimatedDocumentCount();
+    // Round number up because pages are whole numbers
+    const numberOfPage = Math.ceil((await numberOfProducts) / itemsPerPage);
+
+    res.status(200).json({
+      status: 200,
+      data: [
+        {
+          itemsPerPage: itemsPerPage,
+          numberOfPage: numberOfPage,
+          numberOfProducts: numberOfProducts,
+        },
+      ],
       message: "Items retrieved succesfully",
     });
   } catch {
@@ -110,6 +196,7 @@ const updateItemsNathan = async (req, res) => {
       //========================== Received Multiple items inside cart ==========================//
       else if (receivedData.length > 1) {
         //========================== This part needs polishing ==========================//
+
         // For each elem inside received data, do the following
         for (const itemInsideCart of receivedData) {
           let query = { _id: itemInsideCart._id };
@@ -117,6 +204,7 @@ const updateItemsNathan = async (req, res) => {
             .collection(Items_Collection)
             .find(query)
             .toArray();
+          // Should use updateMany instead of updateOne
           let buyItem = await db.collection(Items_Collection).updateOne(query, {
             $set: {
               numInStock: currentItem[0].numInStock - itemInsideCart.quantity,
@@ -158,4 +246,10 @@ const updateItemsNathan = async (req, res) => {
   }
 };
 
-module.exports = { getItems, getItem, updateItemsNathan };
+module.exports = {
+  getItems,
+  getItem,
+  updateItemsNathan,
+  getPagination,
+  get25Items,
+};
