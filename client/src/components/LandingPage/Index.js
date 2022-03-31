@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-
+import ShowButtonHover from "./ButtonHover";
 const Index = () => {
   return (
     // GIFLENS-https://media2.giphy.com/media/Mz6oZpw81uKQg/200.gif
@@ -10,7 +10,6 @@ const Index = () => {
         <>
           <Button to="/armoury/:page">
             <>
-            
               <Mission>Mission Accepted 👀?</Mission>
             </>
             <img
@@ -45,7 +44,7 @@ const Wrapper = styled.div`
 
 const Button = styled(NavLink)`
   text-decoration: none;
-  background-color: #CBD8DF;
+  background-color: #cbd8df;
   justify-content: center;
   display: flex;
   flex-direction: column;
