@@ -39,7 +39,7 @@ express()
   // Updates item when user buys items Danqi Version
   .patch("/api/update-items", updateItems)
   // Updates item when user buys items Nathan Version
-  .patch("/api/update-items", updateItemsNathan)
+  .patch("/api/update-items2", updateItemsNathan)
 
   // Handles all the endpoints
   .get("*", (req, res) => {
