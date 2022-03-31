@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyle from "./GlobalStyles";
 import Header from "./Header";
+import Index from "./LandingPage/Index";
 import ListingGrid from "./ListingGrid";
 import SingleItem from "./ListingGrid/SingleItem";
 import Matrix from "./Matrix";
+
 function App() {
   // useEffect(() => {
   //   // fetch("/bacon")
@@ -22,7 +24,7 @@ function App() {
         {/* <Matrix style={{ zIndex: "1" }}> */}
         <Switch>
           <Route exact path="/tech-spywear">
-            Landing Page
+            <Index />
           </Route>
           <Route exact path="/armoury/:page">
             {/* Home : Listing grid */}
