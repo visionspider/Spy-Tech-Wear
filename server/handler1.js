@@ -1,5 +1,161 @@
-const handler1 = () => {
-  console.log("hi");
+"use strict";
+
+// uses package to generate _id
+const { v4: uuidv4 } = require("uuid");
+
+// Mongo db dependencies
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
+const { MONGO_URI } = process.env;
+const DB_NAME = "ecommerce";
+const Company_Collection = "companies";
+const Items_Collection = "items";
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
+const client = new MongoClient(MONGO_URI, options);
+
+// Function to get all of the items inside the database
+const getItems = async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    let listOfItems = await db.collection(Items_Collection).find().toArray();
+    res.status(200).json({
+      status: 200,
+      data: listOfItems,
+      message: "Items retrieved succesfully",
+    });
+  } catch {
+    res.status(500).json({
+      status: 500,
+      message: "The server is currently unable to handle this request.",
+    });
+  } finally {
+    // Close connection
+    client.close();
+  }
 };
 
-module.exports = { handler1 };
+// Function to get one item inside the database
+const getItem = async (req, res) => {
+  const { itemId } = req.params;
+  const query = { _id: parseInt(itemId) };
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    let item = await db.collection(Items_Collection).find(query).toArray();
+    if (item.length) {
+      res.status(200).json({
+        status: 200,
+        data: item,
+        message: "Item retrieved succesfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        message: "Item with that ID does not exist",
+      });
+    }
+  } catch {
+    res.status(500).json({
+      status: 500,
+      message: "The server is currently unable to handle this request.",
+    });
+  } finally {
+    // Close connection
+    client.close();
+  }
+};
+
+// Function to update database items after purchase
+// Receiving information from Form array of objects -> |quantity|id
+const updateItemsNathan = async (req, res) => {
+  const receivedData = req.body;
+
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    //========================== Body MUST be an array ==========================//
+    if (Array.isArray(receivedData)) {
+      //========================== Only received 1 item inside cart ==========================//
+      if (receivedData.length === 1) {
+        const query = { _id: receivedData[0]._id };
+        let selectedItem = await db
+          .collection(Items_Collection)
+          .find(query)
+          .toArray();
+
+        // Quantity in database is >= than requested amount
+        if (selectedItem[0].numInStock >= receivedData[0].quantity) {
+          let buyItem = await db.collection(Items_Collection).updateOne(query, {
+            $set: {
+              numInStock: selectedItem[0].numInStock - receivedData[0].quantity,
+            },
+          });
+          return res.status(202).json({
+            status: 202,
+            message: "Sufficient amount in database to sell",
+          });
+        }
+        // Quantity in database is < than requested amount
+        else {
+          return res.status(400).json({
+            status: 400,
+            message: "Insufficient amount in stock",
+          });
+        }
+      }
+      //========================== Received Multiple items inside cart ==========================//
+      else if (receivedData.length > 1) {
+        //========================== This part needs polishing ==========================//
+        // For each elem inside received data, do the following
+        for (const itemInsideCart of receivedData) {
+          let query = { _id: itemInsideCart._id };
+          let currentItem = await db
+            .collection(Items_Collection)
+            .find(query)
+            .toArray();
+          let buyItem = await db.collection(Items_Collection).updateOne(query, {
+            $set: {
+              numInStock: currentItem[0].numInStock - itemInsideCart.quantity,
+            },
+          });
+        }
+
+        // Multiple items in cart
+        // if Array length > 1 > updateMany
+        return res.status(202).json({
+          status: 202,
+          message: "Multiple items purchased successfully",
+        });
+      }
+      //========================== Received NOTHING inside cart ==========================//
+      else {
+        //received nothing
+        return res.status(400).json({
+          status: 400,
+          message: "Nothing has been sent -> array length = 0",
+        });
+      }
+    }
+    //========================== Body is not an array ==========================//
+    else {
+      return res.status(400).json({
+        status: 400,
+        message: "Data sent is not an array, please update the data",
+      });
+    }
+  } catch {
+    return res.status(500).json({
+      status: 500,
+      message: "The server is currently unable to handle this request.",
+    });
+  } finally {
+    // Close connection
+    client.close();
+  }
+};
+
+module.exports = { getItems, getItem, updateItemsNathan };
