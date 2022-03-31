@@ -43,7 +43,6 @@ const getItems = async (req, res) => {
 // Function to return 25 items per page
 const get25Items = async (req, res) => {
   const { page } = req.params;
-
   // Make sure that page is a number
   if (isNaN(parseInt(page))) {
     return res.status(400).json({
@@ -51,11 +50,11 @@ const get25Items = async (req, res) => {
       message: "The page number entered is not a number",
     });
   }
-  // If the page number entered is negative
-  else if (parseInt(page) < 0) {
+  // If the page number entered is negative || is 0
+  else if (parseInt(page) <= 0) {
     return res.status(400).json({
       status: 400,
-      message: "The page number entered page is negative",
+      message: "The page number entered is not valid",
     });
   }
   // All test requirements passed, proceed with the request
@@ -63,21 +62,32 @@ const get25Items = async (req, res) => {
     try {
       await client.connect();
       const db = client.db(DB_NAME);
-      const listOfItems = await db
-        .collection(Items_Collection)
-        .find()
-        .sort({ _id: 1 })
-        //sort by id logic
-        .limit(itemsPerPage)
-        // No one goes to page 0 -> need to offset by 1
-        .skip((parseInt(page) - 1) * itemsPerPage)
-        .toArray();
+      const maxNumberOfPage = Math.ceil(
+        (await db.collection(Items_Collection).estimatedDocumentCount()) /
+          itemsPerPage
+      );
+      // Check if the page requested is valid
+      if (page <= maxNumberOfPage) {
+        const listOfItems = await db
+          .collection(Items_Collection)
+          .find()
+          .sort({ _id: 1 })
+          .limit(itemsPerPage)
+          // No one goes to page 0 -> need to offset by 1
+          .skip((parseInt(page) - 1) * itemsPerPage)
+          .toArray();
 
-      res.status(200).json({
-        status: 200,
-        data: listOfItems,
-        message: "Items retrieved succesfully",
-      });
+        res.status(200).json({
+          status: 200,
+          data: listOfItems,
+          message: "Items retrieved succesfully",
+        });
+      } else {
+        res.status(400).json({
+          status: 400,
+          message: "The page number entered is not valid",
+        });
+      }
     } catch {
       res.status(500).json({
         status: 500,
@@ -159,7 +169,6 @@ const getItem = async (req, res) => {
 // Receiving information from Form array of objects -> |quantity|id
 const updateItemsNathan = async (req, res) => {
   const receivedData = req.body;
-
   try {
     await client.connect();
     const db = client.db(DB_NAME);
