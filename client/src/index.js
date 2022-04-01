@@ -9,5 +9,6 @@ ReactDOM.render(
       <App />
     </ShoppingCartProvider>
   </React.StrictMode>,
+  //
   document.getElementById("root")
 );
