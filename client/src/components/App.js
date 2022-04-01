@@ -24,7 +24,7 @@ function App() {
         <Header />
         {/* <Matrix style={{ zIndex: "1" }}> */}
         <Switch>
-          <Route exact path="/tech-spywear">
+          <Route exact path="/">
             <Index />
           </Route>
           <Route exact path="/armoury/:page">
