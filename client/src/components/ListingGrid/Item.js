@@ -11,6 +11,7 @@ const Item = ({ item, type }) => {
     imageSrc,
     numInStock,
     companyId,
+    cartAmount = 0,
   } = item;
   //   console.log(item);
   return type === "multi" ? (
@@ -26,6 +27,12 @@ const Item = ({ item, type }) => {
       <p>{name}</p>
       <p>{price}</p>
       <p>{}</p>
+    </div>
+  ) : type === "cart" ? (
+    <div>
+      <p>{name}</p>
+      <p>{price}</p>
+      <p>{`x ${cartAmount}`}</p>
     </div>
   ) : (
     <></>
