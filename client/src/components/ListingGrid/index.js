@@ -7,11 +7,16 @@ const ListingGrid = () => {
   const [itemList, setItemList] = useState([]);
   const [pages, setPages] = useState([]);
   const [pageArr, setPageArr] = useState([]);
+  //turn pagination into context
+  //add a context for fetch of all items
+  // get api search items name, body_location and category
+  // conditionally render the pagination at the bottom so user can't click multiple times
   const { page } = useParams();
   useEffect(() => {
     fetch(`/api/get-25items/${page}`)
       .then((res) => res.json())
       .then((items) => setItemList(items.data));
+
     fetch("/api/getPagination")
       .then((res) => res.json())
       .then((items) => {
@@ -56,7 +61,7 @@ const ListingGrid = () => {
       </>
     );
   } else {
-    return <>{setPages(pages)}</>;
+    return <></>;
   }
 };
 
