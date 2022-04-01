@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import styled from "styled-components";
+import Cart from "./Cart";
 import GlobalStyle from "./GlobalStyles";
 import Header from "./Header";
 import Index from "./LandingPage/Index";
@@ -37,7 +38,7 @@ function App() {
           </Route>
 
           <Route exact path="/agent-handler">
-            Cart
+            <Cart />
           </Route>
           <Route exact path="/classified">
             Form
@@ -48,7 +49,7 @@ function App() {
           </Route> */}
 
           <Route exact path="/welcome-agent">
-            Confirmation Human Intelligence says your missiong was accepted.
+            Confirmation Human Intelligence says your mission was accepted.
           </Route>
         </Switch>
         {/* </Matrix> */}
