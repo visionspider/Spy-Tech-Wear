@@ -1,9 +1,9 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const usePersistedState = (defaultValue, key) => {
   const [state, setState] = useState(() => {
     const persistedState = sessionStorage.getItem(key);
-    // return defaultValue;
+
     return persistedState && defaultValue.length === 0
       ? JSON.parse(persistedState)
       : defaultValue;
