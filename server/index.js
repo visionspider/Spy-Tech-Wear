@@ -12,7 +12,14 @@ const {
   getPagination,
   get25Items,
 } = require("./handler1");
-const { getCompanies, getCompany, updateItems } = require("./handler2");
+const {
+  getCompanies,
+  getCompany,
+  updateItems,
+  searchItems,
+  searchCategory,
+  searchBodyLocation,
+} = require("./handler2");
 
 express()
   .use(function (req, res, next) {
@@ -50,6 +57,12 @@ express()
   .patch("/api/update-items", updateItems)
   // Updates item when user buys items Nathan Version
   .patch("/api/update-items2", updateItemsNathan)
+  //search items base on query
+  .get("/api/search-items", searchItems)
+  //search items for specified category name
+  .get("/api/search-category/:categoryName", searchCategory)
+  //search items for specified body location
+  .get("/api/search-bodyLocation/:bodyLocation", searchBodyLocation)
 
   // Handles all the endpoints
   .get("*", (req, res) => {
