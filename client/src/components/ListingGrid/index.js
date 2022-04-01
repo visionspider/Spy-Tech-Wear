@@ -1,56 +1,63 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { items } from "../../items";
-
 import Item from "./Item";
 
 const ListingGrid = () => {
   const [itemList, setItemList] = useState([]);
   const [pages, setPages] = useState([]);
+  const [pageArr, setPageArr] = useState([]);
   const { page } = useParams();
   useEffect(() => {
-    setItemList(items);
-    // fetch("/api/get-items")
-    //   .then((res) => res.json())
-    //   .then((items) => setItemList(items.data));
-  }, []);
-  const pageSum = Math.round(itemList.length / 25);
-  if (pages.length !== pageSum) {
-    setPages([...Array(pageSum)]);
-  }
+    fetch(`/api/get-25items/${page}`)
+      .then((res) => res.json())
+      .then((items) => setItemList(items.data));
+    fetch("/api/getPagination")
+      .then((res) => res.json())
+      .then((items) => {
+        console.log("res = ", items.data);
+        setPages(items.data);
+      });
+  }, [page]);
 
-  return (
-    <>
-      <p>
-        You are viewing 25 out of {itemList.length}. Page {page} out of{" "}
-        {pages.length} pages.
-      </p>
-      <Flexbox>
-        {itemList.map((item, index) => {
-          if (index + 1 <= page * 25 && index + 1 >= (page - 1) * 25) {
+  // console.log("number of pages = ", pages[0]?.numberOfPage);
+  if (pages !== undefined) {
+    if (pages[0]?.numberOfPage !== pageArr.length && pages.length !== 0) {
+      setPageArr([...Array(+pages[0]?.numberOfPage)]);
+    }
+
+    // console.log("page arr = ", pageArr);
+    return (
+      <>
+        <p>
+          You are viewing {pages[0]?.itemsPerPage} out of{" "}
+          {pages[0]?.numberOfProducts}. Page {page} out of{" "}
+          {pages[0]?.numberOfPage} pages.
+        </p>
+        <Flexbox>
+          {itemList?.map((item, index) => {
             return <Item key={item._id} item={item} type={"multi"} />;
-          }
-        })}
-      </Flexbox>
-      {pages.length > 0 && (
-        <div>
-          {pages.map((p, index) => {
-            console.log("index = ", index, " and page = ", page);
-            const pageNum = index + 1;
-            console.log(typeof page);
-            return +pageNum === +page ? (
-              <CurrPage key={pageNum}>{pageNum}</CurrPage>
-            ) : (
-              <NavLink to={`/armoury/${pageNum}`} key={pageNum}>
-                {pageNum}
-              </NavLink>
-            );
           })}
-        </div>
-      )}
-    </>
-  );
+        </Flexbox>
+        {pageArr.length > 0 && (
+          <div>
+            {pageArr?.map((p, index) => {
+              const pageNum = index + 1;
+              return +pageNum === +page ? (
+                <CurrPage key={pageNum}>{pageNum}</CurrPage>
+              ) : (
+                <NavLink to={`/armoury/${pageNum}`} key={pageNum}>
+                  {pageNum}
+                </NavLink>
+              );
+            })}
+          </div>
+        )}
+      </>
+    );
+  } else {
+    return <>{setPages(pages)}</>;
+  }
 };
 
 const Flexbox = styled.div`
