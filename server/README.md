@@ -36,6 +36,19 @@ endpoint(get):providing data for a specified item.
 endpoint(get):providing data for a specified company.
 .get("/api/get-companies/:companyId",getCompany)
 
+endpoint(get):searching items base on category name
+.get("/search-category/:categoryName",searchCategory)
+
+endpoint(get):searching items base on body location name
+.get("api/search-bodyLocation/:bodyLocation",searchBodyLocation)
+
+endpoint(get):searching items base on keywords inputted by user (query)
+.get("api/search-items",searchItems)
+example:fetch("api/search-items?keywords=fitn"),
+ it is going to search this key word "fitn" in three keys (name,category,body_location)of item object
+ the res.data will contain all matched items
+
+
 endpoint(patch):Updating the database as users make purchases .
 .patch("/api/update-items",updateItems)
 Expected body from FE is [{_id : firstItemId, quantity: number},{_id: secondItemId, quantity: number}, ...]
