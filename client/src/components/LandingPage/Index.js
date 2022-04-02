@@ -8,7 +8,7 @@ const Index = () => {
     <Container>
       <Wrapper>
         <>
-          <Button to="/armoury/:page">
+          <Button to="/armoury/1">
             <>
               <Mission>Do you accept this Mission?🔴 👀 🕵🏾‍♀️ </Mission>
             </>
@@ -30,19 +30,20 @@ export default Index;
 const Container = styled.div`
   margin: auto;
   padding: 5%;
+  background-color: black;
 `;
 
 const Wrapper = styled.div`
   background-image: url("https://media2.giphy.com/media/Mz6oZpw81uKQg/200.gif");
   height: 50%;
   background-repeat: space;
-  padding: 10%;
+  padding: 50%;
   width: 40%;
   height: 50%;
   margin: auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 `;
 
 const Button = styled(NavLink)`
@@ -51,20 +52,23 @@ const Button = styled(NavLink)`
   display: flex;
   flex-direction: column;
   box-shadow: 15px;
+  padding: 50%;
 `;
 
 const Mission = styled.h1`
   color: red;
   text-align: center;
   font-size: 45px;
+  background-color: black;
 `;
 
 const BigRedButton = styled.img`
   z-index: 100;
   position: absolute;
-  width: 20%;
+  width: 30%;
   stroke: greenyellow;
   stroke-width: 5px;
+  align-self: center;
   :hover {
     display: none;
   }

@@ -8,7 +8,6 @@ const GlobalStyle = createGlobalStyle`
 }
 
 * {
-    
     margin: 0; 
     padding: 0;
     border: 0;
@@ -17,10 +16,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: 100%;
     vertical-align: baseline;
     z-index: 100;
-	
 }
+
 body {
-    background: #000
 }
 
   
