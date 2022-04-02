@@ -11,7 +11,9 @@ const {
   updateItemsNathan,
   getPagination,
   get25Items,
+  getCountryData,
 } = require("./handler1");
+
 const {
   getCompanies,
   getCompany,
@@ -20,6 +22,8 @@ const {
   searchCategory,
   searchBodyLocation,
 } = require("./handler2");
+
+const { countryInformation } = require("../server/data/countryData");
 
 express()
   .use(function (req, res, next) {
@@ -63,6 +67,9 @@ express()
   .get("/api/search-category/:categoryName", searchCategory)
   //search items for specified body location
   .get("/api/search-bodyLocation/:bodyLocation", searchBodyLocation)
+
+  // Gets list of all countries in database
+  .get("/api/get-country-data", getCountryData)
 
   // Handles all the endpoints
   .get("*", (req, res) => {
