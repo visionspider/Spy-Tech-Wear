@@ -8,6 +8,8 @@ import Header from "./Header";
 import Index from "./LandingPage/Index";
 import ListingGrid from "./ListingGrid";
 import SingleItem from "./ListingGrid/SingleItem";
+import { CheckoutForm } from "./Forms/CheckoutForm";
+
 import Matrix from "./Matrix";
 
 function App() {
@@ -20,9 +22,10 @@ function App() {
   return (
     <>
       <GlobalStyle />
+
       <Router>
         <Header />
-        {/* <Matrix style={{ zIndex: "1" }}> */}
+        {/* <Matrix style={{ zIndex: "-100" }}> */}
         <Switch>
           <Route exact path="/">
             <Index />
@@ -37,11 +40,11 @@ function App() {
             <SingleItem />
           </Route>
 
-          <Route exact path="/agent-handler">
+          <Route exact path="/agent-handler/cart">
             <Cart />
           </Route>
           <Route exact path="/classified">
-            Form
+           <CheckoutForm />
           </Route>
 
           {/* <Route exact path="/mission-status/:id">
@@ -49,7 +52,8 @@ function App() {
           </Route> */}
 
           <Route exact path="/welcome-agent">
-            Confirmation Human Intelligence says your mission was accepted.
+            
+            {/* Confirmation Human Intelligence says your mission was accepted. */}
           </Route>
         </Switch>
         {/* </Matrix> */}
