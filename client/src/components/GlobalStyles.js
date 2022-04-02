@@ -8,7 +8,6 @@ const GlobalStyle = createGlobalStyle`
 }
 
 * {
-    
     margin: 0; 
     padding: 0;
     border: 0;
@@ -16,11 +15,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: "matrixFont";
     font-size: 100%;
     vertical-align: baseline;
-    
-	
+    z-index: 100;
 }
-body {
 
+body {
 }
 
   

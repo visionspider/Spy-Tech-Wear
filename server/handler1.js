@@ -18,6 +18,8 @@ const client = new MongoClient(MONGO_URI, options);
 // How many results per page for .get(item)
 const itemsPerPage = 25;
 
+const { countryInformation, countryList } = require("./data/countryData");
+
 // Function to get all of the items inside the database
 const getItems = async (req, res) => {
   try {
@@ -255,10 +257,27 @@ const updateItemsNathan = async (req, res) => {
   }
 };
 
+// Function to get country information inside database
+const getCountryData = async (req, res) => {
+  if (countryInformation) {
+    res.status(200).json({
+      status: 200,
+      data: countryInformation,
+      message: "Country data retrieved succesfully",
+    });
+  } else {
+    res.status(404).json({
+      status: 404,
+      message: "An unexpected error has occured - Missing file inside /data",
+    });
+  }
+};
+
 module.exports = {
   getItems,
   getItem,
   updateItemsNathan,
   getPagination,
   get25Items,
+  getCountryData,
 };
