@@ -11,7 +11,7 @@ const Header = () => {
   const [search, setSearch] = useState("");
 
   const handleSearch = () => {
-    fetch(`/api/search-items/${search}`)
+    fetch(`/api/search-items?keywords=${search}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.message);
