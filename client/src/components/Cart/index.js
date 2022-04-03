@@ -46,14 +46,15 @@ const Cart = ({ type }) => {
                   </UnstyledBtn>
                   <UnstyledBtn
                     value={item._id}
-                    className={noStock}
-                    onClick={(ev) =>
-                      setNoStock(
-                        updateCart(ev.currentTarget.value, "plus")
-                          ? ""
-                          : "disappear"
-                      )
+                    className={
+                      item.numInStock ===
+                      shoppingCart?.filter(
+                        (cartItem) => cartItem._id === item._id
+                      ).length
+                        ? "disappear"
+                        : ""
                     }
+                    onClick={(ev) => updateCart(ev.currentTarget.value, "plus")}
                   >
                     <Plus />
                   </UnstyledBtn>
@@ -91,14 +92,15 @@ const Cart = ({ type }) => {
                   </UnstyledBtn>
                   <UnstyledBtn
                     value={item._id}
-                    className={noStock}
-                    onClick={(ev) =>
-                      setNoStock(
-                        updateCart(ev.currentTarget.value, "plus")
-                          ? ""
-                          : "disappear"
-                      )
+                    className={
+                      item.numInStock ===
+                      shoppingCart?.filter(
+                        (cartItem) => cartItem._id === item._id
+                      ).length
+                        ? "disappear"
+                        : ""
                     }
+                    onClick={(ev) => updateCart(ev.currentTarget.value, "plus")}
                   >
                     <Plus />
                   </UnstyledBtn>

@@ -43,18 +43,17 @@ const SingleItem = () => {
             <AddCart
               key={"10" + i._id}
               onClick={() =>
-                i?.numInStock >
-                shoppingCart?.filter((cartItem) => cartItem._id === i._id)
-                  .length
-                  ? setShoppingCart(
-                      (shoppingCart) => [...shoppingCart, i],
-                      "cart"
-                    )
-                  : setIsStocked(true)
+                setShoppingCart((shoppingCart) => [...shoppingCart, i], "cart")
               }
-              disabled={isStocked || item[0]?.numInStock === 0}
+              disabled={
+                i?.numInStock ===
+                  shoppingCart?.filter((cartItem) => cartItem._id === i._id)
+                    .length || item[0]?.numInStock === 0
+              }
             >
-              {isStocked || item[0]?.numInStock === 0
+              {i?.numInStock ===
+                shoppingCart?.filter((cartItem) => cartItem._id === i._id)
+                  .length || item[0]?.numInStock === 0
                 ? "out of stock"
                 : "Add to cart"}
             </AddCart>

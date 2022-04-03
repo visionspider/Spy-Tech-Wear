@@ -22,12 +22,6 @@ export const ShoppingCartProvider = ({ children }) => {
     });
   };
   const updateCart = (id, value) => {
-    if (
-      value === "plus" &&
-      shoppingCart.some((item) => +item.cartAmount === +item.numInStock)
-    ) {
-      return false;
-    }
     if (value === "minus") {
       let pos = shoppingCart.findIndex((item) => +item._id === +id);
       let copyCart = [...shoppingCart];
@@ -35,7 +29,6 @@ export const ShoppingCartProvider = ({ children }) => {
       copyCart.splice(+pos, 1);
 
       setShoppingCart(() => [...copyCart]);
-      return true;
     } else if (
       value === "plus" &&
       shoppingCart.some((item) => +item.cartAmount < +item.numInStock)
@@ -43,7 +36,6 @@ export const ShoppingCartProvider = ({ children }) => {
       const addItem = shoppingCart.find((item) => item._id === +id);
 
       setShoppingCart((shoppingCart) => [...shoppingCart, addItem]);
-      return true;
     }
   };
   const handleTotal = () => {
