@@ -102,6 +102,7 @@ const RainStream = (props) => {
         <a
           key={index}
           style={{
+            zIndex: -1,
             marginTop: -12,
             // Reduce opacity for last chars
             opacity: index < 6 ? 0.1 + index * 0.15 : 1,
@@ -156,6 +157,7 @@ const Matrix = (props) => {
           height={containerSize?.height}
         />
       ))}
+      {props.children}
     </div>
   );
 };
