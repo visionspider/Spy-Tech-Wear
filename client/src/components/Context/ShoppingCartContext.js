@@ -18,7 +18,7 @@ export const ShoppingCartProvider = ({ children }) => {
     );
 
     return productIds.map((productId) => {
-      return shoppingCart.find((item) => item?._id === productId);
+      return shoppingCart.find((item) => item._id === productId);
     });
   };
   const updateCart = (id, value) => {
@@ -29,9 +29,10 @@ export const ShoppingCartProvider = ({ children }) => {
       return false;
     }
     if (value === "minus") {
-      let pos = shoppingCart.findIndex((item) => item._id === +id);
+      let pos = shoppingCart.findIndex((item) => +item._id === +id);
       let copyCart = [...shoppingCart];
-      copyCart.splice(pos, 1);
+
+      copyCart.splice(+pos, 1);
 
       setShoppingCart(() => [...copyCart]);
       return true;
