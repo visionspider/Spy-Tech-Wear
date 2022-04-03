@@ -3,16 +3,31 @@ import styled from "styled-components";
 import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
+import { SearchContext } from "../Context/SearchContext";
+import Cart from "../Cart";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
+  const { setSearchResults } = useContext(SearchContext);
   const [search, setSearch] = useState("");
+
+  const handleSearch = () => {
+    fetch(`/api/search-items/${search}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.message);
+        setSearchResults(data.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
   return (
     <Wrapper>
       <StyledNavLink to={`/armoury/1`}>
-        <Title>SpyTechWear</Title>
+        <Title>SPYTECHWEAR</Title>
       </StyledNavLink>
       {/* {search onSubmit or onChange} */}
-      <Form onSubmit={(ev) => ev}>
+      <Form onSubmit={(ev) => handleSearch()}>
         <Input
           value={search}
           onChange={(ev) => setSearch(ev.currentTarget.value)}
@@ -20,12 +35,17 @@ const Header = () => {
         ></Input>
         <Search value={"submit"}>Search</Search>
       </Form>
-      <StyledNavLink to={`/agent-handler/cart`}>
-        <Circle className={shoppingCart.length !== 0 ? "" : "disappear"}>
-          {shoppingCart.length}
-        </Circle>
-        <Cart />
-      </StyledNavLink>
+      <CartDiv className={"dropdown"}>
+        <StyledNavLink className={"dropbtn"} to={`/agent-handler/cart`}>
+          <Circle className={shoppingCart.length !== 0 ? "" : "disappear"}>
+            {shoppingCart.length}
+          </Circle>
+          <CartLogo />
+        </StyledNavLink>
+        <CartContentDiv className={"dropdown-content"}>
+          <Cart type={"hover-cart"} />
+        </CartContentDiv>
+      </CartDiv>
     </Wrapper>
   );
 };
@@ -38,14 +58,16 @@ const Wrapper = styled.div`
 `;
 const StyledNavLink = styled(NavLink)`
   /* width: 1%; */
+  text-decoration: none;
   color: red;
   display: flex;
   align-items: center;
-
   justify-content: flex-end;
+
   &:hover {
-    /* color: orange; */
-    opacity: 0.5;
+    h1 {
+      border-bottom: solid 5px red;
+    }
   }
 `;
 
@@ -95,7 +117,7 @@ const Title = styled.h1`
   color: red;
 `;
 
-const Cart = styled(ShoppingCart)`
+const CartLogo = styled(ShoppingCart)`
   font-size: 2rem;
   /* &:hover {
     font-size: 2.5rem;
@@ -120,5 +142,44 @@ const Circle = styled.span`
     width: 30px;
     font-size: 1.5rem;
   } */
+`;
+
+const CartDiv = styled.div`
+  margin-right: 1%;
+  position: relative;
+  display: inline-block;
+
+  &.dropdown:hover {
+    .dropdown-content {
+      display: block;
+    }
+  }
+
+  &.dropdown:hover {
+    .dropbtn {
+      background-color: RGBA(22, 233, 227, 0.3);
+      border-bottom: solid 5px red;
+    }
+  }
+`;
+
+const CartContentDiv = styled.div`
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: RGBA(241, 241, 241, 0.9);
+  border-radius: 4px;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+
+  &.dropdown-content {
+    p {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+  }
 `;
 export default Header;

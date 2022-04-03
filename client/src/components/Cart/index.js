@@ -9,11 +9,12 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import Item from "../ListingGrid/Item";
+import CartItem from "./CartItem";
 
 //disapear and msg about limit reached
 //form needs ID and qty
 
-const Cart = () => {
+const Cart = ({ type }) => {
   const [noStock, setNoStock] = useState("");
   const { shoppingCart, setShoppingCart, updateCart, handleCart, handleTotal } =
     useContext(ShoppingCartContext);
@@ -21,50 +22,97 @@ const Cart = () => {
   const filteredCart = handleCart();
   console.log(shoppingCart.length);
   if (shoppingCart.length !== 0) {
-    return (
-      <>
-        <Wrapper>
-          {filteredCart.map((item) => {
-            console.log(item._id);
-            return (
-              <ItemDiv>
-                <Item key={item._id} item={item} type="cart" />
-
-                <UnstyledBtn
-                  value={item._id}
-                  onClick={(ev) =>
-                    setNoStock(
-                      updateCart(ev.currentTarget.value, "minus")
-                        ? ""
-                        : "disappear"
-                    )
-                  }
-                >
-                  <Minus />
-                </UnstyledBtn>
-                <UnstyledBtn
-                  value={item._id}
-                  className={noStock}
-                  onClick={(ev) =>
-                    setNoStock(
-                      updateCart(ev.currentTarget.value, "plus")
-                        ? ""
-                        : "disappear"
-                    )
-                  }
-                >
-                  <Plus />
-                </UnstyledBtn>
-              </ItemDiv>
-            );
-          })}
+    if (type === "hover-cart") {
+      return (
+        <>
           <Wrapper>
-            <p>Total: $ {handleTotal()}</p>
+            {filteredCart.map((item) => {
+              console.log(item._id);
+              return (
+                <HoverItemDiv>
+                  <CartItem key={item._id} item={item} type="hover-cart" />
+
+                  <UnstyledBtn
+                    value={item._id}
+                    onClick={(ev) =>
+                      setNoStock(
+                        updateCart(ev.currentTarget.value, "minus")
+                          ? ""
+                          : "disappear"
+                      )
+                    }
+                  >
+                    <Minus />
+                  </UnstyledBtn>
+                  <UnstyledBtn
+                    value={item._id}
+                    className={noStock}
+                    onClick={(ev) =>
+                      setNoStock(
+                        updateCart(ev.currentTarget.value, "plus")
+                          ? ""
+                          : "disappear"
+                      )
+                    }
+                  >
+                    <Plus />
+                  </UnstyledBtn>
+                </HoverItemDiv>
+              );
+            })}
+            <Wrapper>
+              <p>Total: $ {handleTotal()}</p>
+            </Wrapper>
+            <Checkout to={"/classified"}>Checkout</Checkout>
           </Wrapper>
-          <Checkout to={"/classified"}>Checkout</Checkout>
-        </Wrapper>
-      </>
-    );
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Wrapper>
+            {filteredCart.map((item) => {
+              console.log(item._id);
+              return (
+                <ItemDiv>
+                  <Item key={item._id} item={item} type="cart" />
+
+                  <UnstyledBtn
+                    value={item._id}
+                    onClick={(ev) =>
+                      setNoStock(
+                        updateCart(ev.currentTarget.value, "minus")
+                          ? ""
+                          : "disappear"
+                      )
+                    }
+                  >
+                    <Minus />
+                  </UnstyledBtn>
+                  <UnstyledBtn
+                    value={item._id}
+                    className={noStock}
+                    onClick={(ev) =>
+                      setNoStock(
+                        updateCart(ev.currentTarget.value, "plus")
+                          ? ""
+                          : "disappear"
+                      )
+                    }
+                  >
+                    <Plus />
+                  </UnstyledBtn>
+                </ItemDiv>
+              );
+            })}
+            <Wrapper>
+              <p>Total: $ {handleTotal()}</p>
+            </Wrapper>
+            <Checkout to={"/classified"}>Checkout</Checkout>
+          </Wrapper>
+        </>
+      );
+    }
   } else {
     return <Wrapper>Cart is empty...</Wrapper>;
   }
@@ -80,10 +128,14 @@ const ItemDiv = styled.div`
   display: flex;
   border-radius: 10px;
   margin-top: 1%;
-  width: 20%;
+  width: 30%;
   padding: 1%;
   -webkit-box-shadow: 0px 0px 10px 0px #c3c3c3;
   box-shadow: 0px 0px 10px 0px #c3c3c3;
+
+  &:hover {
+    background-color: #ddd;
+  }
 `;
 const Checkout = styled(NavLink)`
   cursor: pointer;
@@ -127,6 +179,22 @@ const UnstyledBtn = styled.button`
 
   &.disappear {
     visibility: hidden;
+  }
+`;
+
+//CART HOVER
+
+const HoverItemDiv = styled.div`
+  display: flex;
+  border-radius: 10px;
+  margin-top: 1%;
+  /* width: 20%; */
+  padding: 1%;
+  -webkit-box-shadow: 0px 0px 10px 0px #c3c3c3;
+  box-shadow: 0px 0px 10px 0px #c3c3c3;
+
+  &:hover {
+    background-color: #ddd;
   }
 `;
 export default Cart;

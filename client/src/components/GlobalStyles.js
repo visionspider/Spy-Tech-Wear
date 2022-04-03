@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: "matrixFont";
     font-size: 100%;
     vertical-align: baseline;
-    z-index: 100;
+    
 }
 
 body {

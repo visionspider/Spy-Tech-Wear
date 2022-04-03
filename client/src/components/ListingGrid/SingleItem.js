@@ -52,9 +52,11 @@ const SingleItem = () => {
                     )
                   : setIsStocked(true)
               }
-              disabled={isStocked}
+              disabled={isStocked || item[0]?.numInStock === 0}
             >
-              {!isStocked ? "Add to cart" : "out of stock"}
+              {isStocked || item[0]?.numInStock === 0
+                ? "out of stock"
+                : "Add to cart"}
             </AddCart>
           </>
         ))}
