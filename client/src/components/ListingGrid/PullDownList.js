@@ -58,15 +58,15 @@ const PullDownList = ({ valueArray, name, setPageNumber }) => {
   );
 };
 const Form = styled.form`
-  height: 30px;
+  height: 40px;
   width: 10vw;
   text-align: center;
 
   select {
-    height: 25px;
+    height: 40px;
     text-align: center;
     background: royalblue;
-    font-size: 20px;
+    font-size: 24px;
     color: gold;
     &:hover {
       color: greenyellow;

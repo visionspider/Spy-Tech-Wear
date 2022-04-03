@@ -17,26 +17,36 @@ const HomePageItem = ({ item }) => {
       <Link to={`/tech-ware/${_id}`}>
         <img src={imageSrc} />
       </Link>
-      <p>Category:{category}</p>
-      <p>Body_location:{body_location}</p>
-      <p>{name}</p>
+      <div>
+        <p>Category:{category}</p>
+        <p>Body_location:{body_location}</p>
+        <p>{name}</p>
+      </div>
     </Wrapper>
   );
 };
 const Wrapper = styled.div`
-  width: 18vw;
-  color: goldenrod;
+  margin-top: 10px;
+  width: 15vw;
+
   img {
-    width: 18vw;
-    height: 18vw;
+    width: 13vw;
+    height: 13vw;
     border-radius: 8px;
     background: transparent;
     &:hover {
       transform: scale(1.05);
+      box-shadow: 0 0 20px;
+    }
+  }
+  div {
+    &:hover {
+      color: red;
+      transform: scale(1.1);
     }
   }
   p {
-    text-decoration: none;
+    font-size: 20px;
   }
 `;
 

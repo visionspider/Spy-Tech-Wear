@@ -118,29 +118,35 @@ const ListingGrid = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  background-image: url(/ecommerce.jpg);
+  min-height: 100vh;
 `;
 const Navigation = styled.div`
   width: 100vw;
   height: 40px;
-  background: gray;
+
+  background: royalblue;
   display: grid;
   grid-template-columns: 20vw 15vw 10vw 10vw 10vw;
-  background: royalblue;
+  vertical-align: center;
+  /* background: royalblue; */
 `;
 const Flexbox = styled.div`
+  padding: 0 10vw;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  background: royalblue;
+  /* background: royalblue; */
 `;
 const PageNumberList = styled.div`
-  height: 30px;
+  height: 40px;
   form {
-    height: 30px;
+    font-size: 24px;
+    height: 40px;
     text-align: center;
   }
   select {
-    height: 25px;
+    height: 40px;
     text-align: center;
     background: royalblue;
     color: goldenrod;
@@ -150,8 +156,9 @@ const PageNumberList = styled.div`
 const Button = styled.button`
   color: royalblue;
   background: lightblue;
-  height: 30px;
+  height: 40px;
   border-radius: 8px;
+  font-size: 24px;
   &:hover {
     color: red;
     box-shadow: 0 0 10px;
