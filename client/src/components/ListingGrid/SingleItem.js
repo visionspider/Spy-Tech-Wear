@@ -41,7 +41,7 @@ const SingleItem = () => {
               ))}
             </>
             <AddCart
-              key={"10" + i._id}
+              key={Math.random() * i._id}
               onClick={() =>
                 setShoppingCart((shoppingCart) => [...shoppingCart, i], "cart")
               }

@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from "react-router-dom";
 
 import styled from "styled-components";
 import Cart from "./Cart";
@@ -11,14 +16,14 @@ import SingleItem from "./ListingGrid/SingleItem";
 import { CheckoutForm } from "./Forms/CheckoutForm";
 
 import Matrix from "./Matrix";
-
+//useLocation and going to test out empty result for header
 function App() {
   // useEffect(() => {
   //   // fetch("/bacon")
   //   //   .then((res) => res.json())
   //   //   .then((data) => setBacon(data));
   // }, []);
-
+  // useLocation();
   return (
     <>
       <GlobalStyle />
@@ -29,8 +34,9 @@ function App() {
             <Index />
           </Route>
         </Switch>
-        <Header />
+
         {/* <Matrix style={{ zIndex: "-100" }}> */}
+        <Header />
         <Switch>
           <Route exact path="/armoury/:page">
             {/* Home : Listing grid */}
