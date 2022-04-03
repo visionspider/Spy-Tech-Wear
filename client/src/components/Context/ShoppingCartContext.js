@@ -46,9 +46,22 @@ export const ShoppingCartProvider = ({ children }) => {
       return true;
     }
   };
+  const handleTotal = () => {
+    const itemTotals = shoppingCart.map((item) => item.price.slice(1));
+
+    return itemTotals.length > 1
+      ? itemTotals?.reduce((total, num) => +total + +num)?.toFixed(2)
+      : itemTotals;
+  };
   return (
     <ShoppingCartContext.Provider
-      value={{ shoppingCart, setShoppingCart, updateCart, handleCart }}
+      value={{
+        shoppingCart,
+        setShoppingCart,
+        updateCart,
+        handleCart,
+        handleTotal,
+      }}
     >
       {children}
     </ShoppingCartContext.Provider>

@@ -12,21 +12,19 @@ const Header = () => {
         <Title>SpyTechWear</Title>
       </StyledNavLink>
       {/* {search onSubmit or onChange} */}
-      <form onSubmit={(ev) => ev}>
-        <input
+      <Form onSubmit={(ev) => ev}>
+        <Input
           value={search}
           onChange={(ev) => setSearch(ev.currentTarget.value)}
           placeholder="search here"
-        ></input>
-        <button>Search</button>
-      </form>
+        ></Input>
+        <Search value={"submit"}>Search</Search>
+      </Form>
       <StyledNavLink to={`/agent-handler/cart`}>
-        <CartSpan>
-          <Circle className={shoppingCart.length !== 0 ? "" : "disappear"}>
-            {shoppingCart.length}
-          </Circle>
-          <Cart />
-        </CartSpan>
+        <Circle className={shoppingCart.length !== 0 ? "" : "disappear"}>
+          {shoppingCart.length}
+        </Circle>
+        <Cart />
       </StyledNavLink>
     </Wrapper>
   );
@@ -39,26 +37,64 @@ const Wrapper = styled.div`
   height: 10vh;
 `;
 const StyledNavLink = styled(NavLink)`
-  width: 10%;
+  /* width: 1%; */
   color: red;
   display: flex;
   align-items: center;
+
   justify-content: flex-end;
+  &:hover {
+    /* color: orange; */
+    opacity: 0.5;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  padding: 0.8%;
+  border-radius: 4px;
+
+  &:focus {
+    -webkit-box-shadow: 0px 0px 10px 0px orange;
+    box-shadow: 0px 0px 10px 0px orange;
+    border: none;
+    outline: none;
+  }
+`;
+const Search = styled.button`
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  background-color: red;
+  border: solid 1px red;
+  border-bottom: 6px solid orange;
+  border-radius: 4px;
+  padding: 0.8%;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.1s;
+  &:hover {
+    margin-top: 2px;
+    border-bottom-width: 3px;
+    cursor: pointer;
+  }
+  &:active {
+    margin-top: 5px;
+    border-bottom-width: 0px;
+  }
 `;
 
 const Title = styled.h1`
   color: red;
 `;
 
-const CartSpan = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  &:hover {
-    color: orange;
-    opacity: 0.5;
-  }
-`;
 const Cart = styled(ShoppingCart)`
   font-size: 2rem;
   /* &:hover {
@@ -69,7 +105,7 @@ const Circle = styled.span`
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  font-size: 100%;
+  /* font-size: 100%; */
   height: 20px;
   width: 20px;
   border-radius: 50%;

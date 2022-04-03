@@ -4,6 +4,7 @@ import {
   AiOutlineMinus,
   AiOutlinePlus,
 } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 import styled from "styled-components";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
@@ -14,7 +15,7 @@ import Item from "../ListingGrid/Item";
 
 const Cart = () => {
   const [noStock, setNoStock] = useState("");
-  const { shoppingCart, setShoppingCart, updateCart, handleCart } =
+  const { shoppingCart, setShoppingCart, updateCart, handleCart, handleTotal } =
     useContext(ShoppingCartContext);
 
   const filteredCart = handleCart();
@@ -57,8 +58,10 @@ const Cart = () => {
               </ItemDiv>
             );
           })}
-
-          <Checkout>Checkout</Checkout>
+          <Wrapper>
+            <p>Total: $ {handleTotal()}</p>
+          </Wrapper>
+          <Checkout to={"/classified"}>Checkout</Checkout>
         </Wrapper>
       </>
     );
@@ -82,8 +85,9 @@ const ItemDiv = styled.div`
   -webkit-box-shadow: 0px 0px 10px 0px #c3c3c3;
   box-shadow: 0px 0px 10px 0px #c3c3c3;
 `;
-const Checkout = styled.button`
+const Checkout = styled(NavLink)`
   cursor: pointer;
+  text-decoration: none;
   color: white;
   background-color: red;
   border: solid 1px red;
