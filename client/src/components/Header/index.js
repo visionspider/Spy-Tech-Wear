@@ -4,36 +4,34 @@ import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import { ItemsContext } from "../MyItemsContext";
+
 import Cart from "../Cart";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
-  const { setRenderArray } = useContext(ItemsContext);
+  const { setRenderArray, setStatus } = useContext(ItemsContext);
   const [search, setSearch] = useState("");
-<<<<<<< Updated upstream
-
-  const handleSearch = () => {
-    fetch(`/api/search-items?keywords=${search}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
-        setSearchResults(data.data);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-=======
   const history = useHistory();
   const handleSearch = (ev) => {
     ev.preventDefault();
     if (search.trim() !== "") {
+      setStatus("loading");
       fetch(`/api/search-items?keywords=${search}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data.message);
-          setRenderArray(data.data);
-          history.push(`/armoury/1`);
+
           setSearch("");
-          //add reset here
+          if (data.data.length !== 0) {
+            setRenderArray(data.data);
+            //fix the loadingpage header
+            //pass down data.data to resetAfterSearch
+            //show loading while waiting for data to show on the page
+            //use status from Item to set to "loading"
+            // set status to "idle" when done
+            setStatus("idle");
+            history.push(`/armoury/1`);
+          }
+          //add reset here resetAfterSearch
         })
         .catch((error) => {
           console.log(error.message);
@@ -41,12 +39,12 @@ const Header = () => {
     } else {
       setSearch("");
     }
->>>>>>> Stashed changes
   };
 
   return (
     <Wrapper>
       <StyledNavLink to={`/armoury/1`}>
+        <img src="client/src/img/logo.png" />
         <Title>SPYTECHWEAR</Title>
       </StyledNavLink>
       {/* {search onSubmit or onChange} */}
