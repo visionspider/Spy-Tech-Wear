@@ -9,7 +9,8 @@ export const ItemsContextProvider = ({ children }) => {
   const [status, setStatus] = useState("loading");
   // orderArray contains order information. for example: orderArray = [{_id:6543,qty:2},{_id:6545,qty:4},...]
   const [orderArray, setOrderArray] = useState([]);
-
+  const [renderArray, setRenderArray] = useState([]);
+  const [pageNumberArray, setPageNumberArray] = useState([]);
   useEffect(() => {
     fetch("/api/get-companies")
       .then((res) => res.json())
@@ -32,6 +33,13 @@ export const ItemsContextProvider = ({ children }) => {
             console.log(data.message);
             setItemsArray(data.data);
             setStatus("idle");
+            setRenderArray(data.data);
+            let arr = [];
+            let pageNumber = Math.floor(data.data.length / 25 + 1);
+            for (let i = 1; i <= pageNumber; i++) {
+              arr.push(i);
+            }
+            setPageNumberArray([...arr]);
           })
           .catch((error) => {
             console.log(error.message);
@@ -49,11 +57,15 @@ export const ItemsContextProvider = ({ children }) => {
         status,
         orderArray,
         pageInfo,
+        renderArray,
+        pageNumberArray,
+        setPageNumberArray,
         setItemsArray,
         setCompantArray,
         setStatus,
         setOrderArray,
         setPageInfo,
+        setRenderArray,
       }}
     >
       {children}
