@@ -9,8 +9,19 @@ const PullDownList = ({ valueArray, name, setPageNumber }) => {
     setRenderArray,
     setPageNumberArray,
   } = useContext(ItemsContext);
+  let optionName = "";
+  if (name === "name") {
+    optionName = "Company Name";
+  }
+  if (name === "category") {
+    optionName = "Category";
+  }
+  if (name === "body_location") {
+    optionName = "Body Location";
+  }
   const handleSelect = (ev) => {
     const value = ev.target.value;
+
     if (value) {
       const arr = itemsArray.filter((item) => {
         return item[name].includes(value);
@@ -24,14 +35,17 @@ const PullDownList = ({ valueArray, name, setPageNumber }) => {
       if (name === "name") {
         document.getElementById("category").selectedIndex = 0;
         document.getElementById("body_location").selectedIndex = 0;
+        optionName = "Company Name";
       }
       if (name === "category") {
         document.getElementById("name").selectedIndex = 0;
         document.getElementById("body_location").selectedIndex = 0;
+        optionName = "Category";
       }
       if (name === "body_location") {
         document.getElementById("category").selectedIndex = 0;
         document.getElementById("name").selectedIndex = 0;
+        optionName = "Body Location";
       }
 
       document.getElementById("selectNumber").selectedIndex = 1;
@@ -45,7 +59,7 @@ const PullDownList = ({ valueArray, name, setPageNumber }) => {
   return (
     <Form>
       <select id={name} className="PullDown" onChange={handleSelect}>
-        <option value="">{name.charAt(0).toUpperCase() + name.slice(1)}</option>
+        <option value="">{optionName}</option>
         {valueArray.map((value) => {
           return (
             <option key={value} value={value}>
