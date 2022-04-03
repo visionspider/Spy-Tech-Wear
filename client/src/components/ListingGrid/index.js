@@ -2,126 +2,159 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ItemsContext } from "../MyItemsContext";
-import Item from "./Item";
-
+import HomePageItem from "./HomePageItem";
+import PullDownList from "./PullDownList";
 const ListingGrid = () => {
-  const { itemsArray, status, pageInfo } = useContext(ItemsContext);
-  console.log(status);
-  console.log(itemsArray);
-  console.log(pageInfo);
-
-  const [pageArr, setPageArr] = useState([]);
-  //turn pagination into context
-  //add a context for fetch of all items
-  // get api search items name, body_location and category
-  // conditionally render the pagination at the bottom so user can't click multiple times
+  const {
+    itemsArray,
+    status,
+    companyArray,
+    pageInfo,
+    renderArray,
+    setRenderArray,
+    pageNumberArray,
+    setPageNumberArray,
+  } = useContext(ItemsContext);
   const { page } = useParams();
-  //import item context
-
-  // useEffect(() => {
-  //   fetch(`/api/get-25items/${page}`)
-  //     .then((res) => res.json())
-  //     .then((items) => setItemList(items.data));
-
-  //   fetch("/api/getPagination")
-  //     .then((res) => res.json())
-  //     .then((items) => {
-  //       console.log("res = ", items.data);
-  //       setpageInfo(items.data);
-  //     });
-  // }, [page]);
-
-  // console.log("number of pageInfo = ", pageInfo[0]?.numberOfPage);
-  if (pageInfo !== undefined) {
-    if (pageInfo[0]?.numberOfPage !== pageArr.length && pageInfo.length !== 0) {
-      setPageArr([...Array(+pageInfo[0]?.numberOfPage)]);
+  const categoryName = [
+    "Fitness",
+    "Medical",
+    "Lifestyle",
+    "Entertainment",
+    "Industrial",
+    "Pets and Animals",
+    "Gaming",
+  ];
+  const BodyLocationName = [
+    "Wrist",
+    "Arms",
+    "Head",
+    "Waist",
+    "Chest",
+    "Hands",
+    "Neck",
+    "Feet",
+    "Torso",
+  ];
+  let companyName = [];
+  const [pageNumber, setPageNumber] = useState(1);
+  const handlePageNumberSelect = (ev) => {
+    const num = ev.target.value;
+    setPageNumber(num);
+  };
+  const handleResetAll = () => {
+    const element = document.getElementsByClassName("PullDown");
+    for (let i = 0; i < element.length; i++) {
+      element[i].selectedIndex = 0;
     }
 
-    if (status !== "loading") {
-      // console.log("page arr = ", pageArr);
-      return (
-        <Container>
-          <Flexbox>
-            {itemsArray?.map((item, index) => {
-              if (index + 1 <= page * 25 && index + 1 >= (page - 1) * 25) {
-                return <Item key={item._id} item={item} type={"multi"} />;
-              }
-            })}
-          </Flexbox>
+    let arr = [];
+    let pageNumber = Math.floor(itemsArray.length / 25) + 1;
 
-          {pageArr.length > 0 && (
-            <PageHolder>
-              <h6>
-                Collection Items: {pageInfo[0].itemsPerPage} of{" "}
-                {pageInfo[0]?.numberOfProducts}. <br></br>Collection {page} out
-                of {pageInfo[0]?.numberOfPage} Collections.
-              </h6>
-              {pageArr?.map((p, index) => {
-                const pageNum = index + 1;
-                return +pageNum === +page ? (
-                  <CurrPage key={pageNum}>{pageNum}</CurrPage>
-                ) : (
-                  <>
-                    <StyledLink to={`/armoury/${pageNum}`} key={pageNum}>
-                      {pageNum}
-                    </StyledLink>
-                  </>
+    for (let i = 1; i <= pageNumber; i++) {
+      arr.push(i);
+    }
+    setPageNumberArray([...arr]);
+    setRenderArray([...itemsArray]);
+    setPageNumber(1);
+  };
+  if (status !== "loading") {
+    companyName = companyArray.map((item) => {
+      return item.name;
+    });
+  }
+  return status !== "loading" ? (
+    <Container>
+      <Navigation>
+        <PullDownList
+          valueArray={companyName}
+          name="name"
+          setPageNumber={setPageNumber}
+        />
+        <PullDownList
+          valueArray={categoryName}
+          name="category"
+          setPageNumber={setPageNumber}
+        />
+        <PullDownList
+          valueArray={BodyLocationName}
+          name="body_location"
+          setPageNumber={setPageNumber}
+        />
+        <PageNumberList>
+          <form>
+            <select
+              id="selectNumber"
+              className="PullDown"
+              onChange={handlePageNumberSelect}
+            >
+              <option value="">Pages</option>
+              {pageNumberArray.map((num) => {
+                return (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
                 );
               })}
-            </PageHolder>
-          )}
-        </Container>
-      );
-    } else {
-      return <></>;
-    }
-  }
+            </select>
+          </form>
+        </PageNumberList>
+        <Button onClick={handleResetAll}>Show all</Button>
+      </Navigation>
+
+      <Flexbox>
+        {renderArray
+          .slice((pageNumber - 1) * 25, pageNumber * 25)
+          .map((item) => {
+            return <HomePageItem key={item._id} item={item} />;
+          })}
+      </Flexbox>
+    </Container>
+  ) : (
+    <h1>loading</h1>
+  );
 };
 
 const Container = styled.div`
-  margin: auto;
-  margin-block-end: 20%;
-  display: flex;
-  background-color: black;
-`;
-
-const Flexbox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 45px;
-  margin: auto;
-  width: 50%;
-  margin-block-end: 10%;
-  margin-block-start: 10%;
-  background-color: slategray;
-`;
-const CurrPage = styled.span`
-  color: red;
-  font-size: 25px;
-`;
-const StyledLink = styled(NavLink)`
-  text-decoration: none;
-  justify-content: right;
-  font-size: 25px;
-  display: flex;
-  flex-direction: row;
-`;
-
-const PageHolder = styled.div`
-  position: fixed;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  background-color: grey;
-
-  /* /* // GIFLENS-https://media4.giphy.com/media/1YpPqJ6p8hS9y/200.gif  
-  background-image: url() */
-
-  width: 22%;
-  margin: auto;
-  padding: 0.5%;
-  margin-left: 2.5%;
-  text-align: right;
 `;
-
+const Navigation = styled.div`
+  width: 100vw;
+  height: 40px;
+  background: gray;
+  display: grid;
+  grid-template-columns: 20vw 15vw 10vw 10vw 10vw;
+  background: royalblue;
+`;
+const Flexbox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background: royalblue;
+`;
+const PageNumberList = styled.div`
+  height: 30px;
+  form {
+    height: 30px;
+    text-align: center;
+  }
+  select {
+    height: 25px;
+    text-align: center;
+    background: royalblue;
+    color: goldenrod;
+    font-size: 20px;
+  }
+`;
+const Button = styled.button`
+  color: royalblue;
+  background: lightblue;
+  height: 30px;
+  border-radius: 8px;
+  &:hover {
+    color: red;
+    box-shadow: 0 0 10px;
+  }
+`;
 export default ListingGrid;
