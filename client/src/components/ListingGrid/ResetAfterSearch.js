@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ItemsContext } from "../MyItemsContext";
-const ResetHomePage = ({ dataArr }) => {
+const ResetAfterSearch = ({ dataArr }) => {
   const { setPageNumber, setPageNumberArray } = useContext(ItemsContext);
   const element = document.getElementsByClassName("PullDown");
   for (let i = 0; i < element.length; i++) {
@@ -17,4 +17,4 @@ const ResetHomePage = ({ dataArr }) => {
   setPageNumber(1);
 };
 
-export default ResetHomePage;
+export default ResetAfterSearch;
