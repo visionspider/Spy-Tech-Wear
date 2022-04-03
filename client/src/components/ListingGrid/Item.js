@@ -1,3 +1,4 @@
+import { RiNumber1 } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -17,30 +18,45 @@ const Item = ({ item, type }) => {
   return type === "multi" ? (
     <Wrapper>
       <Link to={`/tech-ware/${_id}`}>
-        <img src={imageSrc} />
+        <ItemPic src={imageSrc} />
         <p>{name}</p>
       </Link>
     </Wrapper>
   ) : type === "single" ? (
-    <div>
+    <Wrapper>
       <img src={imageSrc} />
       <p>{name}</p>
       <p>{price}</p>
-      <p>{}</p>
-    </div>
+      <p>{numInStock}</p>
+    </Wrapper>
   ) : type === "cart" ? (
-    <div>
+    <>
       <p>{name}</p>
       <p>{price}</p>
       <p>{`x ${cartAmount}`}</p>
-    </div>
+    </>
   ) : (
-    <></>
+    <>
+      <Loading
+        src={"https://media2.giphy.com/media/3kXazx72G3NbfCjemP/200.gif"}
+      />
+    </>
   );
 };
 
 const Wrapper = styled.div`
-  width: 10%;
+  width: 30%;
+  text-align: center;
+  justify-items: center;
+  margin: auto;
 `;
 
+const Loading = styled.img`
+  margin: auto;
+`;
+
+const ItemPic = styled.img`
+  width: 100%;
+  justify-self: center;
+`;
 export default Item;

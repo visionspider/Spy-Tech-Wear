@@ -31,29 +31,34 @@ const SingleItem = () => {
   console.log("is stocked = ", isStocked);
   return (
     <>
-      {item.map((i) => (
-        <>
-          <Item key={i._id} item={i} type={"single"} />
-          <AddCart
-            key={"10" + i._id}
-            onClick={() =>
-              i?.numInStock >
-              shoppingCart?.filter((cartItem) => cartItem._id === i._id).length
-                ? setShoppingCart(
-                    (shoppingCart) => [...shoppingCart, i],
-                    "cart"
-                  )
-                : setIsStocked(true)
-            }
-            disabled={isStocked}
-          >
-            {!isStocked ? "Add to cart" : "out of stock"}
-          </AddCart>
-        </>
-      ))}
-      {company.map((company) => (
-        <Company key={company._id} company={company} />
-      ))}
+      <ItemHolder>
+        {item.map((i) => (
+          <>
+            <Item key={i._id} item={i} type={"single"} />
+            <>
+              {company.map((company) => (
+                <Company key={company._id} company={company} />
+              ))}
+            </>
+            <AddCart
+              key={"10" + i._id}
+              onClick={() =>
+                i?.numInStock >
+                shoppingCart?.filter((cartItem) => cartItem._id === i._id)
+                  .length
+                  ? setShoppingCart(
+                      (shoppingCart) => [...shoppingCart, i],
+                      "cart"
+                    )
+                  : setIsStocked(true)
+              }
+              disabled={isStocked}
+            >
+              {!isStocked ? "Add to cart" : "out of stock"}
+            </AddCart>
+          </>
+        ))}
+      </ItemHolder>
     </>
   );
 };
@@ -64,9 +69,19 @@ const AddCart = styled.button`
   border: solid 1px red;
   padding: 5px;
   border-radius: 5px;
+  text-align: center;
+
+  margin-top: 1.5%;
   &:disabled {
     background-color: gray;
     border: solid 1px gray;
   }
 `;
+
+const ItemHolder = styled.div`
+  margin-top: 10%;
+  justify-content: center;
+  text-align: center;
+`;
+
 export default SingleItem;

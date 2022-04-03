@@ -12,7 +12,7 @@ const Header = () => {
         <input value={"variable"} placeholder="search here"></input>
         <button>Search</button>
       </form>
-      <StyledNavLink to={`/agent-handler`}>
+      <StyledNavLink to={`/agent-handler/cart`}>
         <Cart />
       </StyledNavLink>
     </Wrapper>
