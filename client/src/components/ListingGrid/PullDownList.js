@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { ItemsContext } from "../MyItemsContext";
 import { useContext } from "react";
-const PullDownList = ({ valueArray, name, setPageNumber }) => {
+const PullDownList = ({ valueArray, name }) => {
   const {
     itemsArray,
     status,
     renderArray,
     setRenderArray,
     setPageNumberArray,
+    setPageNumber,
   } = useContext(ItemsContext);
   let optionName = "";
   if (name === "name") {

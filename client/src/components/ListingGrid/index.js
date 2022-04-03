@@ -14,6 +14,8 @@ const ListingGrid = () => {
     setRenderArray,
     pageNumberArray,
     setPageNumberArray,
+    pageNumber,
+    setPageNumber,
   } = useContext(ItemsContext);
   const { page } = useParams();
   const categoryName = [
@@ -37,7 +39,7 @@ const ListingGrid = () => {
     "Torso",
   ];
   let companyName = [];
-  const [pageNumber, setPageNumber] = useState(1);
+
   const handlePageNumberSelect = (ev) => {
     const num = ev.target.value;
     setPageNumber(num);
@@ -66,21 +68,9 @@ const ListingGrid = () => {
   return status !== "loading" ? (
     <Container>
       <Navigation>
-        <PullDownList
-          valueArray={companyName}
-          name="name"
-          setPageNumber={setPageNumber}
-        />
-        <PullDownList
-          valueArray={categoryName}
-          name="category"
-          setPageNumber={setPageNumber}
-        />
-        <PullDownList
-          valueArray={BodyLocationName}
-          name="body_location"
-          setPageNumber={setPageNumber}
-        />
+        <PullDownList valueArray={companyName} name="name" />
+        <PullDownList valueArray={categoryName} name="category" />
+        <PullDownList valueArray={BodyLocationName} name="body_location" />
         <PageNumberList>
           <form>
             <select
