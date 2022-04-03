@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   AiOutlineClose as Close,
   AiOutlineMinus,
@@ -9,79 +9,85 @@ import styled from "styled-components";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import Item from "../ListingGrid/Item";
 
+//disapear and msg about limit reached
+//form needs ID and qty
+
 const Cart = () => {
-  const { shoppingCart, setShoppingCart } = useContext(ShoppingCartContext);
+  const [noStock, setNoStock] = useState("");
+  const { shoppingCart, setShoppingCart, updateCart, handleCart } =
+    useContext(ShoppingCartContext);
 
-  const handleCart = () => {
-    //adding itemCount as a key value pair i.e cartAmount : num,
-    shoppingCart.forEach((item, i, arr) => {
-      let itemCount = arr.filter((item1) => item1._id === item._id);
-
-      item.cartAmount = itemCount.length;
-    });
-    //Keeping only 1 id per unique product and putting it back into array
-    const productIds = Array.from(
-      new Set(shoppingCart.map((item) => item._id))
-    );
-
-    return productIds.map((productId) => {
-      return shoppingCart.find((item) => item?._id === productId);
-    });
-  };
-  const updateCart = (id, value) => {
-    if (value === "minus") {
-      let pos = shoppingCart.findIndex((item) => item._id === +id);
-      let copyCart = [...shoppingCart];
-      copyCart.splice(pos, 1);
-      setShoppingCart(() => [...copyCart]);
-    } else if (
-      value === "plus" &&
-      shoppingCart.some((item) => +item.cartAmount < +item.numInStock)
-    ) {
-      const addItem = shoppingCart.find((item) => item._id === +id);
-
-      setShoppingCart((shoppingCart) => [...shoppingCart, addItem]);
-    }
-  };
   const filteredCart = handleCart();
-  return (
-    <>
-      <Wrapper>
-        {filteredCart.map((item) => {
-          console.log(item._id);
-          return (
-            <>
-              <Item key={item._id} item={item} type="cart" />
-              <UnstyledBtn
-                value={item._id}
-                onClick={(ev) => updateCart(ev.currentTarget.value, "minus")}
-              >
-                <Minus />
-              </UnstyledBtn>
-              <UnstyledBtn
-                value={item._id}
-                onClick={(ev) => updateCart(ev.currentTarget.value, "plus")}
-              >
-                <Plus />
-              </UnstyledBtn>
-            </>
-          );
-        })}
-      </Wrapper>
-      <Checkout>Checkout</Checkout>
-    </>
-  );
+  console.log(shoppingCart.length);
+  if (shoppingCart.length !== 0) {
+    return (
+      <>
+        <Wrapper>
+          {filteredCart.map((item) => {
+            console.log(item._id);
+            return (
+              <ItemDiv>
+                <Item key={item._id} item={item} type="cart" />
+
+                <UnstyledBtn
+                  onClick={(ev) =>
+                    setNoStock(
+                      updateCart(ev.currentTarget.value, "minus")
+                        ? ""
+                        : "disappear"
+                    )
+                  }
+                >
+                  <Minus />
+                </UnstyledBtn>
+                <UnstyledBtn
+                  value={item._id}
+                  className={noStock}
+                  onClick={(ev) =>
+                    setNoStock(
+                      updateCart(ev.currentTarget.value, "plus")
+                        ? ""
+                        : "disappear"
+                    )
+                  }
+                >
+                  <Plus />
+                </UnstyledBtn>
+              </ItemDiv>
+            );
+          })}
+
+          <Checkout>Checkout</Checkout>
+        </Wrapper>
+      </>
+    );
+  } else {
+    return <Wrapper>Cart is empty...</Wrapper>;
+  }
 };
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+`;
+const ItemDiv = styled.div`
+  display: flex;
+  border-radius: 10px;
+  margin-top: 1%;
+  width: 20%;
+  padding: 1%;
+  -webkit-box-shadow: 0px 0px 10px 0px #c3c3c3;
+  box-shadow: 0px 0px 10px 0px #c3c3c3;
 `;
 const Checkout = styled.button`
   cursor: pointer;
+  color: white;
   background-color: red;
   border: solid 1px red;
   border-radius: 8px;
-  padding: 2px;
+  padding: 0.5%;
 `;
 const Plus = styled(AiOutlinePlus)``;
 
@@ -89,7 +95,7 @@ const Minus = styled(AiOutlineMinus)``;
 
 const UnstyledBtn = styled.button`
   display: block;
-  margin: 0;
+  margin: 1%;
   padding: 0;
   border: none;
   background: transparent;
@@ -98,6 +104,10 @@ const UnstyledBtn = styled.button`
   z-index: 1;
   &:active {
     color: inherit;
+  }
+
+  &.disappear {
+    visibility: hidden;
   }
 `;
 export default Cart;
