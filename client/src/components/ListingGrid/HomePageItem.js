@@ -26,7 +26,7 @@ const HomePageItem = ({ item }) => {
   );
 };
 const Wrapper = styled.div`
-  margin-top: 10px;
+  margin-top: 20px;
   width: 15vw;
 
   img {

@@ -127,7 +127,7 @@ const Navigation = styled.div`
 
   background: royalblue;
   display: grid;
-  grid-template-columns: 20vw 15vw 10vw 10vw 10vw;
+  grid-template-columns: 25vw 20vw 20vw 10vw 10vw;
   vertical-align: center;
   /* background: royalblue; */
 `;
