@@ -11,6 +11,7 @@ export const ItemsContextProvider = ({ children }) => {
   const [orderArray, setOrderArray] = useState([]);
   const [renderArray, setRenderArray] = useState([]);
   const [pageNumberArray, setPageNumberArray] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
   useEffect(() => {
     fetch("/api/get-companies")
       .then((res) => res.json())
@@ -59,6 +60,8 @@ export const ItemsContextProvider = ({ children }) => {
         pageInfo,
         renderArray,
         pageNumberArray,
+        pageNumber,
+        setPageNumber,
         setPageNumberArray,
         setItemsArray,
         setCompantArray,
