@@ -30,6 +30,7 @@ const Cart = () => {
                 <Item key={item._id} item={item} type="cart" />
 
                 <UnstyledBtn
+                  value={item._id}
                   onClick={(ev) =>
                     setNoStock(
                       updateCart(ev.currentTarget.value, "minus")
@@ -86,8 +87,22 @@ const Checkout = styled.button`
   color: white;
   background-color: red;
   border: solid 1px red;
-  border-radius: 8px;
-  padding: 0.5%;
+  border-bottom: 6px solid orange;
+  border-radius: 4px;
+  padding: 0.8%;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.1s;
+  &:hover {
+    margin-top: 2px;
+    border-bottom-width: 3px;
+    cursor: pointer;
+  }
+  &:active {
+    margin-top: 5px;
+    border-bottom-width: 0px;
+  }
 `;
 const Plus = styled(AiOutlinePlus)``;
 
