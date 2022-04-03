@@ -1,14 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
-import { SearchContext } from "../Context/SearchContext";
+import { ItemsContext } from "../MyItemsContext";
 import Cart from "../Cart";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
-  const { setSearchResults } = useContext(SearchContext);
+  const { setRenderArray } = useContext(ItemsContext);
   const [search, setSearch] = useState("");
+<<<<<<< Updated upstream
 
   const handleSearch = () => {
     fetch(`/api/search-items?keywords=${search}`)
@@ -20,20 +21,42 @@ const Header = () => {
       .catch((error) => {
         console.log(error.message);
       });
+=======
+  const history = useHistory();
+  const handleSearch = (ev) => {
+    ev.preventDefault();
+    if (search.trim() !== "") {
+      fetch(`/api/search-items?keywords=${search}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.message);
+          setRenderArray(data.data);
+          history.push(`/armoury/1`);
+          setSearch("");
+          //add reset here
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } else {
+      setSearch("");
+    }
+>>>>>>> Stashed changes
   };
+
   return (
     <Wrapper>
       <StyledNavLink to={`/armoury/1`}>
         <Title>SPYTECHWEAR</Title>
       </StyledNavLink>
       {/* {search onSubmit or onChange} */}
-      <Form onSubmit={(ev) => handleSearch()}>
+      <Form onSubmit={(ev) => handleSearch(ev)}>
         <Input
           value={search}
           onChange={(ev) => setSearch(ev.currentTarget.value)}
           placeholder="search here"
         ></Input>
-        <Search value={"submit"}>Search</Search>
+        <Search type="submit">Search</Search>
       </Form>
       <CartDiv className={"dropdown"}>
         <StyledNavLink className={"dropbtn"} to={`/agent-handler/cart`}>
@@ -81,7 +104,7 @@ const Form = styled.form`
 const Input = styled.input`
   padding: 0.8%;
   border-radius: 4px;
-
+  outline: solid 1px grey;
   &:focus {
     -webkit-box-shadow: 0px 0px 10px 0px orange;
     box-shadow: 0px 0px 10px 0px orange;

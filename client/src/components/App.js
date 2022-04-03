@@ -24,12 +24,14 @@ function App() {
       <GlobalStyle />
 
       <Router>
-        <Header />
-        {/* <Matrix style={{ zIndex: "-100" }}> */}
         <Switch>
           <Route exact path="/">
             <Index />
           </Route>
+        </Switch>
+        <Header />
+        {/* <Matrix style={{ zIndex: "-100" }}> */}
+        <Switch>
           <Route exact path="/armoury/:page">
             {/* Home : Listing grid */}
             <ListingGrid />
@@ -44,7 +46,7 @@ function App() {
             <Cart />
           </Route>
           <Route exact path="/classified">
-           <CheckoutForm />
+            <CheckoutForm />
           </Route>
 
           {/* <Route exact path="/mission-status/:id">
@@ -52,7 +54,6 @@ function App() {
           </Route> */}
 
           <Route exact path="/welcome-agent">
-            
             {/* Confirmation Human Intelligence says your mission was accepted. */}
           </Route>
         </Switch>
