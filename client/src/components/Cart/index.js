@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 
 import styled from "styled-components";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
-
 import Item from "../ListingGrid/Item";
 import CartItem from "./CartItem";
 
