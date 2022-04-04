@@ -1,5 +1,15 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { FormStepOneValidation } from "./Logic/ValidateStep1";
+import {
+  Button,
+  Container,
+  ErrorMessage,
+  Input,
+  InputContainer,
+  Label,
+  Select,
+  Title,
+} from "./Components/FormStyles";
 
 export const ShippingAddress = ({
   userInformation,
@@ -7,7 +17,6 @@ export const ShippingAddress = ({
   handleOnChange,
   territoryList,
   setFormStep,
-  setUserInformation,
   formStep,
   errorMessage,
   setErrorMessage,
@@ -15,41 +24,8 @@ export const ShippingAddress = ({
   // State boolean for form next
   const [validUserInformation, setvalidUserInformation] = useState(false);
 
-  //======Optimized Data structure to store user information START==========
-  // const ShippingAddress = userInformation.ShippingAddress;
-  // const ClientDetail = userInformation.ClientDetail;
-  // const ShippingAddressErrorMessage = errorMessage.ShippingAddress;
-  // const ClientDetailErrorMessage = errorMessage.ClientDetail;
-  //========Optimized Data structure to store user information END========
-
-  // stackoverflow
-  const phoneRegex = /^[-+]?[0-9]+$/;
-  // StackOverflow: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-  const emailRegex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   // Form validation function
   useEffect(() => {
-    // Optimal way to validate user information, Need to select current page fields tho
-    // for (let userData in userInformation) {
-    //   if (userInformation[userData] === "") {
-    //     console.log("Invalid user", userInformation[userData]);
-    //     setvalidUserInformation(false);
-    //     return;
-    //   } else {
-    //     console.log("Valid user information");
-    //     for (let errorData in errorMessage) {
-    //       if (errorMessage[errorData] !== "") {
-    //         console.log("Invalid error", errorMessage[errorData]);
-    //         setvalidUserInformation(false);
-    //         return;
-    //       } else {
-    //         setvalidUserInformation(true);
-    //       }
-    //     }
-    //   }
-
-    // Probably better way to do this
     if (
       // ============================================= Temp
       userInformation.country !== "" &&
@@ -74,130 +50,6 @@ export const ShippingAddress = ({
     } else setvalidUserInformation(false);
   }, [userInformation, errorMessage]);
 
-  // Optimize code by linking to onChange
-  // Function to display form mistakes on blur
-  const handleOnBlur = (ev) => {
-    const name = ev.target.name;
-    const value = ev.target.value;
-    // ============== Country edge cases ============== //
-    if (name === "country" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please select a country",
-      });
-    } else if (name === "country" && value !== "") {
-      setErrorMessage({ ...errorMessage, [name]: "" });
-    }
-    // ============== Full Name edge cases ============== //
-    if (name === "fullName" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a name",
-      });
-    } else if (name === "fullName" && Number(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "A name should not have any numbers!",
-      });
-    } else if (name === "fullName" && value !== "") {
-      setErrorMessage({ ...errorMessage, [name]: "" });
-    }
-    // ============== Phone number edge cases ==============//
-    if (name === "phoneNumber" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a phone number",
-      });
-    } else if (name === "phoneNumber" && isNaN(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter numbers only. Format is XXX-XXX-XXXX",
-      });
-    } else if (name === "phoneNumber" && value.length < 10) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Input should be at least 10 numbers long",
-      });
-    } else if (name === "phoneNumber" && value.length > 15) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a valid phone number",
-      });
-    } else if (name === "phoneNumber" && value.match(phoneRegex)) {
-      console.log("regex match");
-      setErrorMessage({ ...errorMessage, [name]: "" });
-    }
-    // ============== Address edge cases ============== //
-    if (name === "address" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a valid address",
-      });
-    } else if (name === "address" && Number(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please do not include any numbers in street address",
-      });
-    } else if (name === "address" && value.length > 3) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "",
-      });
-    }
-    // ============== Address number edge cases ============== //
-    if (name === "addressNumber" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a valid address number",
-      });
-    } else if (name === "addressNumber" && isNaN(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter numbers only",
-      });
-    } else if (name === "addressNumber" && Number(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "",
-      });
-    }
-    // ============== Email edge cases ============== //
-    if (name === "email" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter an email",
-      });
-    } else if (name === "email" && !emailRegex.test(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a valid email",
-      });
-    } else if (name === "email" && emailRegex.test(value)) {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "",
-      });
-    }
-    // ============== Territory edge cases ============== //
-    if (name === "territory" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please select a province/territory",
-      });
-    } else if (name === "territory" && value !== "") {
-      setErrorMessage({ ...errorMessage, [name]: "" });
-    }
-    // ============== Postal code edge cases ============== //
-    if (name === "postalCode" && value === "") {
-      setErrorMessage({
-        ...errorMessage,
-        [name]: "Please enter a postal code",
-      });
-    } else if (name === "postalCode" && value !== "") {
-      setErrorMessage({ ...errorMessage, [name]: "" });
-    }
-  };
-
   return (
     <Container>
       <Title>Shipping Detail</Title>
@@ -207,17 +59,19 @@ export const ShippingAddress = ({
         <Select
           value={userInformation.country}
           name="country"
-          onChange={(e) => handleOnChange(e)}
+          onChange={(ev) => handleOnChange(ev)}
           style={{ width: "100%" }}
-          onBlur={(e) => handleOnBlur(e)}
+          onBlur={(e) =>
+            FormStepOneValidation(e, setErrorMessage, errorMessage)
+          }
           autoComplete="on"
           required
         >
           <option value="" selected disabled>
-            Country
+            Select a Country/Region
           </option>
           {countryList?.map((country, i) => (
-            <option key={i} value={country.name} category="ShippingAddress">
+            <option key={i} value={country.name}>
               {country.name}
             </option>
           ))}
@@ -232,7 +86,9 @@ export const ShippingAddress = ({
           name="fullName"
           type="text"
           category="ShippingAddress"
-          onBlur={(e) => handleOnBlur(e)}
+          onBlur={(e) =>
+            FormStepOneValidation(e, setErrorMessage, errorMessage)
+          }
           onChange={(ev) => handleOnChange(ev)}
           autoComplete="none"
           required
@@ -249,7 +105,9 @@ export const ShippingAddress = ({
           pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
           placeholder="123-456-7890"
           onChange={(ev) => handleOnChange(ev)}
-          onBlur={(ev) => handleOnBlur(ev)}
+          onBlur={(ev) =>
+            FormStepOneValidation(ev, setErrorMessage, errorMessage)
+          }
           autoComplete="none"
           required
         />
@@ -264,13 +122,15 @@ export const ShippingAddress = ({
           type="text"
           placeholder="Street address or P.O. box"
           onChange={(ev) => handleOnChange(ev)}
-          onBlur={(ev) => handleOnBlur(ev)}
+          onBlur={(ev) =>
+            FormStepOneValidation(ev, setErrorMessage, errorMessage)
+          }
           autoComplete="none"
           required
         />
         {/* ADD SPACING */}
         <ErrorMessage>{errorMessage.address}</ErrorMessage>
-        <div>.</div>
+        <div>Number</div>
         {/* Address house number */}
         <Input
           value={userInformation.addressNumber}
@@ -278,7 +138,9 @@ export const ShippingAddress = ({
           type="text"
           placeholder="Apt, Suite, Unit, Building"
           onChange={(ev) => handleOnChange(ev)}
-          onBlur={(ev) => handleOnBlur(ev)}
+          onBlur={(ev) =>
+            FormStepOneValidation(ev, setErrorMessage, errorMessage)
+          }
           autoComplete="none"
           required
         />
@@ -292,7 +154,9 @@ export const ShippingAddress = ({
           name="email"
           type="email"
           onChange={(ev) => handleOnChange(ev)}
-          onBlur={(ev) => handleOnBlur(ev)}
+          onBlur={(ev) =>
+            FormStepOneValidation(ev, setErrorMessage, errorMessage)
+          }
           autoComplete="none"
           required
         />
@@ -309,7 +173,9 @@ export const ShippingAddress = ({
                 name="territory"
                 type="text"
                 onChange={(ev) => handleOnChange(ev)}
-                onBlur={(ev) => handleOnBlur(ev)}
+                onBlur={(ev) =>
+                  FormStepOneValidation(ev, setErrorMessage, errorMessage)
+                }
                 autoComplete="none"
                 required
               />
@@ -323,7 +189,9 @@ export const ShippingAddress = ({
                 type="text"
                 onChange={(ev) => handleOnChange(ev)}
                 style={{ width: "20%" }}
-                onBlur={(ev) => handleOnBlur(ev)}
+                onBlur={(ev) =>
+                  FormStepOneValidation(ev, setErrorMessage, errorMessage)
+                }
                 autoComplete="none"
                 required
               />
@@ -341,7 +209,9 @@ export const ShippingAddress = ({
               name="territory"
               onChange={(e) => handleOnChange(e)}
               style={{ width: "100%" }}
-              onBlur={(e) => handleOnBlur(e)}
+              onBlur={(e) =>
+                FormStepOneValidation(e, setErrorMessage, errorMessage)
+              }
               autoComplete="none"
               required
             >
@@ -366,7 +236,9 @@ export const ShippingAddress = ({
               type="text"
               onChange={(ev) => handleOnChange(ev)}
               style={{ width: "50%" }}
-              onBlur={(ev) => handleOnBlur(ev)}
+              onBlur={(ev) =>
+                FormStepOneValidation(ev, setErrorMessage, errorMessage)
+              }
               autoComplete="none"
               required
             />
@@ -384,7 +256,9 @@ export const ShippingAddress = ({
               name="territory"
               onChange={(e) => handleOnChange(e)}
               style={{ width: "40%" }}
-              onBlur={(e) => handleOnBlur(e)}
+              onBlur={(ev) =>
+                FormStepOneValidation(ev, setErrorMessage, errorMessage)
+              }
               autoComplete="none"
               required
             >
@@ -407,7 +281,9 @@ export const ShippingAddress = ({
               value={userInformation.postalCode}
               name="postalCode"
               type="text"
-              onblur={(ev) => handleOnBlur(ev)}
+              onblur={(ev) =>
+                FormStepOneValidation(ev, setErrorMessage, errorMessage)
+              }
               onChange={(ev) => handleOnChange(ev)}
               style={{ width: "50%" }}
               autoComplete="none"
@@ -422,8 +298,11 @@ export const ShippingAddress = ({
         style={{
           cursor: `${validUserInformation === true ? "pointer" : "initial"}`,
           backgroundColor: `${
-            validUserInformation === true ? "red" : "initial"
+            validUserInformation === true
+              ? "hsl(208, 100%, 51%)"
+              : "hsl(208, 100%, 81%)"
           }`,
+          color: `${validUserInformation === true ? "white" : "#8a8a8a"}`,
         }}
         onClick={() => {
           if (validUserInformation === true) {
@@ -436,41 +315,3 @@ export const ShippingAddress = ({
     </Container>
   );
 };
-
-const Input = styled.input`
-  width: 100%;
-  font-size: 1em;
-  font-weight: normal;
-  border: 1px solid black;
-`;
-
-const InputContainer = styled.div``;
-
-const Label = styled.div`
-  font-size: 1em;
-`;
-
-const Select = styled.select`
-  border: 1px solid black;
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.8em;
-`;
-
-const Button = styled.button`
-  width: 80%;
-  border: 1px solid black;
-  margin: auto;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 10px;
-`;
-const Title = styled.div`
-  font-size: 1.5em;
-`;

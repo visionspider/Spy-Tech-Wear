@@ -18,7 +18,7 @@ const client = new MongoClient(MONGO_URI, options);
 // How many results per page for .get(item)
 const itemsPerPage = 25;
 
-const { countryInformation, countryList } = require("./data/countryData");
+const { countryInformation } = require("./data/countryData");
 
 // Function to get all of the items inside the database
 const getItems = async (req, res) => {
@@ -170,7 +170,8 @@ const getItem = async (req, res) => {
 // Function to update database items after purchase
 // Receiving information from Form array of objects -> |quantity|id
 const updateItemsNathan = async (req, res) => {
-  const receivedData = req.body;
+  const receivedData = req.body.data;
+  console.log("data retrieved", receivedData);
   try {
     await client.connect();
     const db = client.db(DB_NAME);
@@ -179,6 +180,7 @@ const updateItemsNathan = async (req, res) => {
       //========================== Only received 1 item inside cart ==========================//
       if (receivedData.length === 1) {
         const query = { _id: receivedData[0]._id };
+        console.log("1 item inside cart");
         let selectedItem = await db
           .collection(Items_Collection)
           .find(query)
@@ -191,8 +193,8 @@ const updateItemsNathan = async (req, res) => {
               numInStock: selectedItem[0].numInStock - receivedData[0].quantity,
             },
           });
-          return res.status(202).json({
-            status: 202,
+          return res.status(200).json({
+            status: 200,
             message: "Sufficient amount in database to sell",
           });
         }
@@ -206,7 +208,10 @@ const updateItemsNathan = async (req, res) => {
       }
       //========================== Received Multiple items inside cart ==========================//
       else if (receivedData.length > 1) {
+        console.log("multiple items inside cart");
         //========================== This part needs polishing ==========================//
+
+        // Loop through the items inside the cart to see if they all have enough quantity in stock
 
         // For each elem inside received data, do the following
         for (const itemInsideCart of receivedData) {
@@ -215,18 +220,19 @@ const updateItemsNathan = async (req, res) => {
             .collection(Items_Collection)
             .find(query)
             .toArray();
+          console.log(currentItem);
           // Should use updateMany instead of updateOne
-          let buyItem = await db.collection(Items_Collection).updateOne(query, {
-            $set: {
-              numInStock: currentItem[0].numInStock - itemInsideCart.quantity,
-            },
-          });
+          // let buyItem = await db.collection(Items_Collection).updateOne(query, {
+          //   $set: {
+          //     numInStock: currentItem[0].numInStock - itemInsideCart.quantity,
+          //   },
+          // });
         }
 
         // Multiple items in cart
         // if Array length > 1 > updateMany
-        return res.status(202).json({
-          status: 202,
+        return res.status(200).json({
+          status: 200,
           message: "Multiple items purchased successfully",
         });
       }
