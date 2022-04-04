@@ -103,6 +103,7 @@ export const PaymentDetail = ({
             justifyContent: "space-between",
             borderBottom: "none",
             alignItems: "initial",
+            marginBottom: "30px",
           }}
         >
           {/* Input Month */}
@@ -138,12 +139,13 @@ export const PaymentDetail = ({
               value={userInformation.expirationYear}
               name="expirationYear"
               onChange={(ev) => handleOnChange(ev)}
-              style={{ width: "40%" }}
+              style={{ width: "40%", textAlign: "center" }}
               onBlur={(e) =>
                 FormStepTwoValidation(e, setErrorMessage, errorMessage)
               }
               autoComplete="off"
               type="text"
+              placeholder="xxxx"
               required
             />
             <ErrorMessage>{errorMessage.expirationYear}</ErrorMessage>
@@ -160,7 +162,7 @@ export const PaymentDetail = ({
               }
               onChange={(ev) => handleOnChange(ev)}
               autoComplete="off"
-              style={{ width: "30%" }}
+              style={{ width: "40%", textAlign: "center" }}
               required
             />
             <ErrorMessage>{errorMessage.cvv}</ErrorMessage>
@@ -168,11 +170,19 @@ export const PaymentDetail = ({
         </Section>
       </div>
       {/* Button to go to back a page */}
-      <div style={{ display: "flex", gap: "10px", margin: "20px 0px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          margin: "40px 0px",
+          justifyContent: "space-around",
+        }}
+      >
         <Button
           style={{
             cursor: "pointer",
             backgroundColor: "hsl(204, 8%, 76%)",
+            color: "white",
           }}
           onClick={() => {
             setFormStep(formStep - 1);

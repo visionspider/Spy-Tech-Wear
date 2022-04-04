@@ -52,7 +52,6 @@ export const FormStepOneValidation = (input, setData, data) => {
       [name]: "Please enter a valid phone number",
     });
   } else if (name === "phoneNumber" && value.match(phoneRegex)) {
-    console.log("regex match");
     setData({ ...data, [name]: "" });
   }
   // ============== Address edge cases ============== //

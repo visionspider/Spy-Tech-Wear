@@ -171,7 +171,6 @@ const getItem = async (req, res) => {
 // Receiving information from Form array of objects -> |quantity|id
 const updateItemsNathan = async (req, res) => {
   const receivedData = req.body.data;
-  console.log("data retrieved", receivedData);
   try {
     await client.connect();
     const db = client.db(DB_NAME);
@@ -180,7 +179,6 @@ const updateItemsNathan = async (req, res) => {
       //========================== Only received 1 item inside cart ==========================//
       if (receivedData.length === 1) {
         const query = { _id: receivedData[0]._id };
-        console.log("1 item inside cart");
         let selectedItem = await db
           .collection(Items_Collection)
           .find(query)
@@ -208,7 +206,6 @@ const updateItemsNathan = async (req, res) => {
       }
       //========================== Received Multiple items inside cart ==========================//
       else if (receivedData.length > 1) {
-        console.log("multiple items inside cart");
         //========================== This part needs polishing ==========================//
 
         // Loop through the items inside the cart to see if they all have enough quantity in stock
@@ -220,7 +217,6 @@ const updateItemsNathan = async (req, res) => {
             .collection(Items_Collection)
             .find(query)
             .toArray();
-          console.log(currentItem);
           // Should use updateMany instead of updateOne
           // let buyItem = await db.collection(Items_Collection).updateOne(query, {
           //   $set: {

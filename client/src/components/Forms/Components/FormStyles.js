@@ -9,6 +9,7 @@ export const Form = styled.form`
   width: 650px;
   font-weight: bold;
   margin: 50px auto auto auto;
+  transition: all 1s ease-in-out;
 `;
 
 export const Section = styled.div`
@@ -27,7 +28,8 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 100px;
+  display: block;
+  width: 130px;
   color: white;
   box-shadow: 5px 5px 5px #eee;
   margin: auto;
@@ -45,7 +47,7 @@ export const Button = styled.button`
   font-family: "HelveticaNeue", "Arial", sans-serif;
   font-size: 105%;
   letter-spacing: 0.8px;
-  margin-bottom: 10px;
+  margin: 10px;
 `;
 
 export const Container = styled.div`
@@ -89,13 +91,15 @@ export const Select = styled.select`
 
 export const ErrorMessage = styled.div`
   color: red;
-  font-size: 0.8em;
+  font-size: 1em;
   margin-bottom: 5px;
+  margin-left: 10px;
 `;
 
 export const Label = styled.div`
   font-size: 1em;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  margin-left: 10px;
 `;
 
 export const InputContainer = styled.div``;
@@ -117,6 +121,7 @@ export const Input = styled.input`
   font-family: "HelveticaNeue", "Arial", sans-serif;
   font-size: 105%;
   letter-spacing: 0.8px;
+  margin-bottom: 10px;
 
   &:focus {
     outline: 3px solid rgba(81, 203, 238, 1);
@@ -124,7 +129,7 @@ export const Input = styled.input`
 `;
 
 export const ProgressBarContainer = styled.div`
-  width: 90%;
+  width: 80%;
   height: 2rem;
   border-radius: 2rem;
   position: relative;
@@ -150,4 +155,5 @@ export const ProgressBar = styled.div`
   align-items: center;
   color: white;
   font-family: sans-serif;
+  transition: all 0.5s ease-in-out;
 `;
