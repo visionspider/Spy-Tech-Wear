@@ -22,17 +22,12 @@ const Header = () => {
         .then((data) => {
           setSearch("");
           setStatus("idle");
+          history.push("/armoury/1");
           if (data.status === 200) {
-            console.log(data);
-            //fix the loadingpage header (done)
-            //pass down data.data to resetAfterSearch (done)
-            //show loading while waiting for data to show on the page (done)
-            //use status from Item to set to "loading" (done)
-            // set status to "idle" when done (done)
-
+            setRenderArray(data.data);
             ResetHomePage(data.data, setPageNumber, setPageNumberArray);
-            //add reset here resetAfterSearch (done)
-            history.push(`/armoury/1`);
+          } else {
+            setRenderArray([]);
           }
         })
         .catch((error) => {
