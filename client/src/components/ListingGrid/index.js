@@ -127,7 +127,7 @@ const Navigation = styled.div`
   vertical-align: center;
 `;
 const Flexbox = styled.div`
-  padding: 0 5vw;
+  padding: 0 6vw;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
