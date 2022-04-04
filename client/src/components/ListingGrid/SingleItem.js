@@ -44,19 +44,6 @@ const SingleItem = () => {
         <ItemHolder>
           {item.map((i) => (
             <>
-<<<<<<< Updated upstream
-              {company.map((company) => (
-                <Company key={company._id} company={company} />
-              ))}
-            </>
-            <AddCart
-              key={Math.random() * i._id}
-              onClick={() =>
-                setShoppingCart((shoppingCart) => [...shoppingCart, i], "cart")
-              }
-              disabled={
-                i?.numInStock ===
-=======
               <Item key={i._id} item={i} type={"single"} />
               <>
                 {company.map((company) => (
@@ -78,7 +65,6 @@ const SingleItem = () => {
                 }
               >
                 {i?.numInStock ===
->>>>>>> Stashed changes
                   shoppingCart?.filter((cartItem) => cartItem._id === i._id)
                     .length || item[0]?.numInStock === 0
                   ? "out of stock"
