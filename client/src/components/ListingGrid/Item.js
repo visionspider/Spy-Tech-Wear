@@ -28,6 +28,9 @@ const Item = ({ item, type }) => {
       <SingleItemPic src={imageSrc} />
 
       <h1>{name}</h1>
+      <h3> Category: {category} </h3>
+      <h3> Body Location: {body_location}</h3>
+
       <PriceisRight>
         <strong>
           <p>{price}</p>{" "}
