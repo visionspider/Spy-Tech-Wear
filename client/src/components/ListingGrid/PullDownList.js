@@ -80,11 +80,11 @@ const Form = styled.form`
   select {
     height: 40px;
     text-align: center;
-    background: royalblue;
+    background: transparent;
     font-size: 24px;
     color: gold;
     &:hover {
-      color: greenyellow;
+      color: goldenrod;
     }
   }
 `;
