@@ -5,7 +5,9 @@ export const sumbitForm = (
   setserverResponseMessage
 ) => {
   if (shoppingCart.length === 0) {
-    return console.log("No items in cart");
+    setserverResponseMessage("There are no items inside your cart!");
+    setFormStep(400);
+    return;
   } else {
     setFormStep("processingPurchase");
     fetch(`/api/update-items`, {

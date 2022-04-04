@@ -91,8 +91,6 @@ export const CheckoutForm = () => {
 
   const [serverResponseMessage, setserverResponseMessage] = useState("");
 
-  console.log(formProgress);
-
   useEffect(() => {
     //-100 is the default value
     //
@@ -107,7 +105,7 @@ export const CheckoutForm = () => {
         if (res.ok) {
           return res.json();
         }
-        throw new Error("Something went wrong");
+        throw new Error("Something went wrong while retrieving data.");
       })
       .then((result) => {
         setCountryList(result.data[0].CountryList);
@@ -115,15 +113,15 @@ export const CheckoutForm = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        //Go to error page
-        console.log(error);
+        setFormStep(400);
+        setserverResponseMessage(error);
       });
   }, []);
 
   // Update form input value field
-  const handleOnChange = (ev) => {
-    const name = ev.target.name;
-    const value = ev.target.value.name;
+  const handleOnChange = (input) => {
+    const name = input.target.name;
+    const value = input.target.value;
 
     setUserInformation({ ...userInformation, [name]: value });
   };

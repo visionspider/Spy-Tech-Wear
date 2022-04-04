@@ -57,10 +57,9 @@ export const ShippingAddress = ({
       <InputContainer>
         <Label>Country/Region</Label>
         <Select
-          value={userInformation.country}
+          value={userInformation?.country}
           name="country"
           onChange={(ev) => handleOnChange(ev)}
-          style={{ width: "100%" }}
           onBlur={(e) =>
             FormStepOneValidation(e, setErrorMessage, errorMessage)
           }
@@ -115,7 +114,7 @@ export const ShippingAddress = ({
       </InputContainer>
       {/* Address street name */}
       <InputContainer>
-        <Label>Address</Label>
+        <Label>Street Name</Label>
         <Input
           value={userInformation.address}
           name="address"
@@ -130,7 +129,7 @@ export const ShippingAddress = ({
         />
         {/* ADD SPACING */}
         <ErrorMessage>{errorMessage.address}</ErrorMessage>
-        <div>Number</div>
+        <Label>Address Number</Label>
         {/* Address house number */}
         <Input
           value={userInformation.addressNumber}
@@ -188,7 +187,7 @@ export const ShippingAddress = ({
                 name="postalCode"
                 type="text"
                 onChange={(ev) => handleOnChange(ev)}
-                style={{ width: "20%" }}
+                style={{ width: "25%", textAlign: "center" }}
                 onBlur={(ev) =>
                   FormStepOneValidation(ev, setErrorMessage, errorMessage)
                 }
@@ -235,7 +234,7 @@ export const ShippingAddress = ({
               name="postalCode"
               type="text"
               onChange={(ev) => handleOnChange(ev)}
-              style={{ width: "50%" }}
+              style={{ width: "50%", textAlign: "center" }}
               onBlur={(ev) =>
                 FormStepOneValidation(ev, setErrorMessage, errorMessage)
               }
@@ -285,7 +284,7 @@ export const ShippingAddress = ({
                 FormStepOneValidation(ev, setErrorMessage, errorMessage)
               }
               onChange={(ev) => handleOnChange(ev)}
-              style={{ width: "50%" }}
+              style={{ width: "120%", textAlign: "center" }}
               autoComplete="none"
               required
             />
@@ -303,6 +302,8 @@ export const ShippingAddress = ({
               : "hsl(208, 100%, 81%)"
           }`,
           color: `${validUserInformation === true ? "white" : "#8a8a8a"}`,
+          justifySelf: "end",
+          marginLeft: "auto",
         }}
         onClick={() => {
           if (validUserInformation === true) {

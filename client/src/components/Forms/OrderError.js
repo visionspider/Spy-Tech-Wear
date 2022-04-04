@@ -1,6 +1,8 @@
-import { Container, SubTitle, Title } from "./Components/FormStyles";
+import { Button, Container, SubTitle, Title } from "./Components/FormStyles";
+import { useHistory } from "react-router-dom";
 
 export const OrderError = ({ message }) => {
+  let history = useHistory();
   return (
     <Container
       style={{
@@ -27,6 +29,18 @@ export const OrderError = ({ message }) => {
       >
         Please try again later
       </SubTitle>
+      {/* Return to cart */}
+      <Button
+        style={{
+          cursor: "pointer",
+          backgroundColor: "hsl(204, 8%, 76%)",
+          color: "white",
+          width: "200px",
+        }}
+        onClick={() => history.push(`/agent-handler/cart`)}
+      >
+        Return to cart
+      </Button>
     </Container>
   );
 };
