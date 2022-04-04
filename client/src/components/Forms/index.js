@@ -1,39 +1,48 @@
-import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { ShippingAddress } from "./ShippingAddress";
-import { PaymentDetail } from "./PaymentDetail";
-import { ConfirmationDetail } from "./ConfirmationDetail";
+import { useState, useEffect, useContext } from "react";
+import { ShippingAddress } from "./FormStep1";
+import { PaymentDetail } from "./FormStep2";
+import { ConfirmationDetail } from "./FormStep3";
+import { ShoppingCartContext } from "../Context/ShoppingCartContext";
+import { OrderConfirmed } from "./OrderConfirmed";
+import { OrderError } from "./OrderError";
+import { ProcessingPurchase } from "./ProcessingPurchase";
+import {
+  Form,
+  ProgressBar,
+  ProgressBarContainer,
+  Section,
+} from "./Components/FormStyles";
+import { sumbitForm } from "./Logic/Submit";
 
 export const CheckoutForm = () => {
+  //Form order: ShippingAddress(1) -> PaymentDetail(2) -> ConfirmationDetail(3) -> OrderConfirmed("orderConfirmed") || Error("error")
+
+  const { shoppingCart } = useContext(ShoppingCartContext);
+
+  // Data that will be sent to the server
+  const shoppingMap = {};
+
+  shoppingCart.forEach((item) => {
+    const { _id, name } = item;
+    if (item._id in shoppingMap) {
+      shoppingMap[_id].quantity += 1;
+    } else {
+      shoppingMap[_id] = {
+        _id,
+        quantity: 1,
+        name: name,
+        price: item.price.slice(1),
+      };
+    }
+  });
+
   // State to store country list Information
   const [countryList, setCountryList] = useState(null);
   // State to store states/provinces
   const [territoryList, setTerritoryList] = useState(null);
   // State to store user Information
   const [userInformation, setUserInformation] = useState({
-    //Optimized Data structure to store user information START
-    // ShippingAddress: {
-    //   address: "",
-    //   addressNumber: "",
-    //   country: "",
-    //   territory: "",
-    // },
-
-    // ClientDetail: {
-    //   fullName: "",
-    //   email: "",
-    //   postalCode: "",
-    //   phoneNumber: "",
-    // },
-
-    // PaymentDetail: {
-    //   creditCard: "",
-    //   creditCardName: "",
-    //   cvv: "",
-    //   expiration: { month: "", year: "" },
-    // },
-    //Optimized Data structure to store user information END
-    // ===========Temp
+    // Form Step 1
     address: "",
     addressNumber: "",
     country: "",
@@ -43,7 +52,7 @@ export const CheckoutForm = () => {
     postalCode: "",
     phoneNumber: "",
 
-    //step 2
+    //Form Step 2
     creditCard: "",
     creditCardName: "",
     cvv: "",
@@ -55,34 +64,15 @@ export const CheckoutForm = () => {
   //Form steps
   const [formStep, setFormStep] = useState(1);
 
+  //Progress bar
+  const [maxFormStep, setMaxFormStep] = useState(3);
+
+  //Default to -100 -> left -100%
+  const [formProgress, setFormProgress] = useState(-100);
+
   // Error message
   const [errorMessage, setErrorMessage] = useState({
-    //Optimized Data structure to store user information START
-    // Step 1
-    // ShippingAddress: {
-    //   address: "",
-    //   addressNumber: "",
-    //   country: "",
-    //   territory: "",
-    // },
-
-    // ClientDetail: {
-    //   fullName: "",
-    //   email: "",
-    //   postalCode: "",
-    //   phoneNumber: "",
-    // },
-
-    // // Step 2
-    // PaymentDetail: {
-    //   creditCard: "",
-    //   creditCardName: "",
-    //   cvv: "",
-    //   expiration: { month: "", year: "" },
-    // },
-    //Optimized Data structure to store user information END
-
-    // ===========Temp
+    // Form Step 1
     address: "",
     addressNumber: "",
     country: "",
@@ -91,12 +81,23 @@ export const CheckoutForm = () => {
     email: "",
     postalCode: "",
     phoneNumber: "",
+    //Form Step 2
     creditCard: "",
     creditCardName: "",
     cvv: "",
     expirationMonth: "",
     expirationYear: "",
   });
+
+  const [serverResponseMessage, setserverResponseMessage] = useState("");
+
+  console.log(formProgress);
+
+  useEffect(() => {
+    //-100 is the default value
+    //
+    setFormProgress(-100 + (formStep / maxFormStep) * 100);
+  }, [formStep]);
 
   // fetch country data from API
   useEffect(() => {
@@ -109,12 +110,12 @@ export const CheckoutForm = () => {
         throw new Error("Something went wrong");
       })
       .then((result) => {
-        console.log("data retrieved is:", result);
         setCountryList(result.data[0].CountryList);
         setTerritoryList(result.data[0].Territories);
         setIsLoading(false);
       })
       .catch((error) => {
+        //Go to error page
         console.log(error);
       });
   }, []);
@@ -122,44 +123,54 @@ export const CheckoutForm = () => {
   // Update form input value field
   const handleOnChange = (ev) => {
     const name = ev.target.name;
-    const value = ev.target.value;
+    const value = ev.target.value.name;
+
     setUserInformation({ ...userInformation, [name]: value });
   };
 
   return (
-    // If fetching is done
-    isLoading === false ? (
+    // If isLoading is true, show loading animation
+    isLoading === true ? (
+      <div>Fetching data...</div>
+    ) : //If loading is false, BUT there are no items inside cart
+    shoppingCart.length === 0 ? (
+      <Form>
+        <div
+          style={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          There are no items inside your cart!
+        </div>
+      </Form>
+    ) : (
+      //If loading is false && there are item(s) inside cart
       <Form
         // Removes autofill
         autoComplete="new-password"
         onSubmit={(ev) => {
           ev.preventDefault();
-          console.log("Submitted");
-          // If userHas entered valid information, proceed with submission
-          // if (validUserInformation === true) {
-          /*          fetch(`/api/update-reservation/`, {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  method: "PATCH",
-                  body: JSON.stringify({
-              isAvailable: false,
-            }),
-          }).then((res) => {
-            if (res.ok) {
-              return res.json();
-            }
-          }); */
-          //     console.log("data sumbitted");
-          //   }
+
+          sumbitForm(
+            shoppingCart,
+            setFormStep,
+            shoppingMap,
+            setserverResponseMessage
+          );
         }}
       >
         {/* Form step indicator*/}
-        <Section>
-          <div>Step 1</div>
-          <div>Step 2</div>
-          <div>Step 3</div>
-        </Section>
+        {formStep !== 200 &&
+        formStep !== 400 &&
+        formStep !== "processingPurchase" ? (
+          // Show steps if formStep is not equal to confirmedOrder or errorOrder
+          <ProgressBarContainer>
+            <ProgressBar style={{ left: `${Math.round(formProgress)}%` }} />
+          </ProgressBarContainer>
+        ) : null}
 
         {/* Shipping detail*/}
         {formStep === 1 && (
@@ -202,36 +213,21 @@ export const CheckoutForm = () => {
             formStep={formStep}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
+            itemsInsideCart={Object.values(shoppingMap)}
           />
         )}
+        {/* When order is confirmed */}
+        {formStep === 200 && (
+          <OrderConfirmed
+            userInformation={userInformation}
+            itemsInsideCart={Object.values(shoppingMap)}
+          />
+        )}
+        {/* Error page */}
+        {formStep === 400 && <OrderError message={serverResponseMessage} />}
+        {/* Processing order */}
+        {formStep === "processingPurchase" && <ProcessingPurchase />}
       </Form>
-    ) : (
-      // If fetching is not done -> Loading country information
-      <div>Fetching data...</div>
     )
   );
 };
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  background-color: white; //Can remove this later
-  border: 5px solid black;
-  min-height: 500px;
-  width: 650px;
-  font-weight: bold;
-  margin: auto;
-`;
-
-const Tab = styled.div`
-  color: inherit;
-  font-size: 1em;
-  background-color: #f0f0f0;
-  height: 25px;
-`;
-
-const Section = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-`;
