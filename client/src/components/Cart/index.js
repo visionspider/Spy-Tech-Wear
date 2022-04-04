@@ -124,7 +124,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
 `;
 const ItemDiv = styled.div`
   display: flex;
@@ -189,8 +189,8 @@ const UnstyledBtn = styled.button`
 const HoverItemDiv = styled.div`
   display: flex;
   border-radius: 10px;
-  margin-top: 1%;
-  /* width: 20%; */
+  margin-top: 5%;
+  width: 90%;
   padding: 1%;
   -webkit-box-shadow: 0px 0px 10px 0px #c3c3c3;
   box-shadow: 0px 0px 10px 0px #c3c3c3;

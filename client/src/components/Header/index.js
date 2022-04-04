@@ -6,9 +6,11 @@ import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import { ItemsContext } from "../MyItemsContext";
 
 import Cart from "../Cart";
+import ResetHomePage from "../ListingGrid/ResetHomePage";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
-  const { setRenderArray, setStatus } = useContext(ItemsContext);
+  const { setRenderArray, setStatus, setPageNumber, setPageNumberArray } =
+    useContext(ItemsContext);
   const [search, setSearch] = useState("");
   const history = useHistory();
   const handleSearch = (ev) => {
@@ -18,22 +20,23 @@ const Header = () => {
       fetch(`/api/search-items?keywords=${search}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.message);
-
           setSearch("");
-          if (data.data.length !== 0) {
-            setRenderArray(data.data);
-            //fix the loadingpage header
-            //pass down data.data to resetAfterSearch
-            //show loading while waiting for data to show on the page
-            //use status from Item to set to "loading"
-            // set status to "idle" when done
-            setStatus("idle");
+          setStatus("idle");
+          if (data.status === 200) {
+            console.log(data);
+            //fix the loadingpage header (done)
+            //pass down data.data to resetAfterSearch (done)
+            //show loading while waiting for data to show on the page (done)
+            //use status from Item to set to "loading" (done)
+            // set status to "idle" when done (done)
+
+            ResetHomePage(data.data, setPageNumber, setPageNumberArray);
+            //add reset here resetAfterSearch (done)
             history.push(`/armoury/1`);
           }
-          //add reset here resetAfterSearch
         })
         .catch((error) => {
+          setStatus("idle");
           console.log(error.message);
         });
     } else {
@@ -190,7 +193,7 @@ const CartContentDiv = styled.div`
   right: 0;
   background-color: RGBA(241, 241, 241, 0.9);
   border-radius: 4px;
-  min-width: 200px;
+  min-width: 250px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 100;
 
