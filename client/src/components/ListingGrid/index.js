@@ -65,6 +65,7 @@ const ListingGrid = () => {
       return item.name;
     });
   }
+
   return status !== "loading" ? (
     <Container>
       <Navigation>
@@ -91,14 +92,17 @@ const ListingGrid = () => {
         </PageNumberList>
         <Button onClick={handleResetAll}>Show all</Button>
       </Navigation>
-
-      <Flexbox>
-        {renderArray
-          .slice((pageNumber - 1) * 25, pageNumber * 25)
-          .map((item) => {
-            return <HomePageItem key={item._id} item={item} />;
-          })}
-      </Flexbox>
+      {renderArray.length ? (
+        <Flexbox>
+          {renderArray
+            .slice((pageNumber - 1) * 25, pageNumber * 25)
+            .map((item) => {
+              return <HomePageItem key={item._id} item={item} />;
+            })}
+        </Flexbox>
+      ) : (
+        <H1>No matched items</H1>
+      )}
     </Container>
   ) : (
     <h1>loading</h1>
@@ -153,5 +157,10 @@ const Button = styled.button`
     color: red;
     box-shadow: 0 0 10px;
   }
+`;
+const H1 = styled.h1`
+  color: black;
+  font-size: 48px;
+  margin: 200px 0 0 30vw;
 `;
 export default ListingGrid;
