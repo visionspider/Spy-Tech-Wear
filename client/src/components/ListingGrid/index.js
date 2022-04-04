@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ItemsContext } from "../MyItemsContext";
 import HomePageItem from "./HomePageItem";
 import PullDownList from "./PullDownList";
+import Loading from "../../Loading";
 const ListingGrid = () => {
   const {
     itemsArray,
@@ -105,7 +106,7 @@ const ListingGrid = () => {
       )}
     </Container>
   ) : (
-    <h1>loading</h1>
+    <Loading />
   );
 };
 
