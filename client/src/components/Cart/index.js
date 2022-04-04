@@ -13,7 +13,7 @@ import CartItem from "./CartItem";
 
 //disapear and msg about limit reached
 //form needs ID and qty
-
+//the cart is displaying the order of items based on position in array sometimes they are switching between each other
 const Cart = ({ type }) => {
   const [noStock, setNoStock] = useState("");
   const { shoppingCart, setShoppingCart, updateCart, handleCart, handleTotal } =

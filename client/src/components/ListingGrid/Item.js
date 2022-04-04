@@ -38,15 +38,29 @@ const Item = ({ item, type }) => {
       </PriceisRight>
     </Wrapper>
   ) : type === "cart" ? (
-    <>
+    <CartWrapper>
+      <ItemPic src={imageSrc} />
       <p>{name}</p>
       <p>{price}</p>
       <p>{`x ${cartAmount}`}</p>
-    </>
+    </CartWrapper>
   ) : (
     <></>
   );
 };
+
+const CartWrapper = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+  padding: 15px;
+  gap: 2.5px;
+  margin-top: 1.5%; */
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,6 +92,7 @@ const Wrapper = styled.div`
 const ItemPic = styled.img`
   width: 100%;
   justify-self: center;
+  border-radius: 4px;
 `;
 
 const SingleItemPic = styled.img`
@@ -85,6 +100,7 @@ const SingleItemPic = styled.img`
   margin: auto;
   padding-bottom: 5px;
   justify-self: center;
+  border-radius: 4px;
 `;
 
 const PriceisRight = styled.div`

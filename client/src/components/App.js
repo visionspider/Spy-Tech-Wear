@@ -13,7 +13,7 @@ import Header from "./Header";
 import Index from "./LandingPage/Index";
 import ListingGrid from "./ListingGrid";
 import SingleItem from "./ListingGrid/SingleItem";
-import { CheckoutForm } from "./Forms/CheckoutForm";
+import { CheckoutForm } from "./Forms";
 
 import Matrix from "./Matrix";
 //useLocation and going to test out empty result for header
