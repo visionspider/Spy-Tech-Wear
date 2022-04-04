@@ -1,5 +1,6 @@
-const ResetHomePage = ({ dataArr, setPageNumber, setPageNumberArray }) => {
+const ResetHomePage = (dataArr, setPageNumber, setPageNumberArray) => {
   const element = document.getElementsByClassName("PullDown");
+
   for (let i = 0; i < element.length; i++) {
     element[i].selectedIndex = 0;
   }
@@ -9,6 +10,8 @@ const ResetHomePage = ({ dataArr, setPageNumber, setPageNumberArray }) => {
   for (let i = 1; i <= pageNumber; i++) {
     arr.push(i);
   }
+  console.log("page number array", arr);
+  console.log("page number", pageNumber);
   setPageNumberArray([...arr]);
   setPageNumber(1);
 };
