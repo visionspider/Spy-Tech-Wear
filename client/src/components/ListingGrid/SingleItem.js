@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Loading from "../../Loading";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 
 import Company from "./Company";
@@ -9,6 +10,7 @@ import Item from "./Item";
 const SingleItem = () => {
   const { shoppingCart, setShoppingCart } = useContext(ShoppingCartContext);
   const [isStocked, setIsStocked] = useState(false);
+  const [oops, setOops] = useState(false);
   const [item, setItem] = useState([]);
   const [company, setCompany] = useState([]);
   const { id } = useParams();
@@ -16,26 +18,33 @@ const SingleItem = () => {
   useEffect(() => {
     fetch(`/api/get-items/${id}`)
       .then((res) => res.json())
-      .then((items) => setItem(items.data));
+      .then((items) => setItem(items.data))
+      .catch((err) => {
+        console.log(err, "ERRRORRRRRRR,ITEM");
+      });
   }, [id]);
-  if (item.length > 0 && company.length < 1) {
+  if (item?.length > 0 && company.length < 1) {
     fetch(`/api/get-companies/${item[0]?.companyId}`)
       .then((res) => res.json())
       .then((items) => {
         // console.log(items.data);
         setCompany(items.data);
+      })
+      .catch((err) => {
+        console.log(err, "ERRORCOMP");
       });
   }
   console.log("item = ", item);
   console.log("shopping cart = ", shoppingCart);
   console.log("is stocked = ", isStocked);
-  return (
-    <>
-      <ItemHolder>
-        {item.map((i) => (
-          <>
-            <Item key={i._id} item={i} type={"single"} />
+
+  if (company?.length !== 0) {
+    return (
+      <BG>
+        <ItemHolder>
+          {item.map((i) => (
             <>
+<<<<<<< Updated upstream
               {company.map((company) => (
                 <Company key={company._id} company={company} />
               ))}
@@ -47,21 +56,40 @@ const SingleItem = () => {
               }
               disabled={
                 i?.numInStock ===
+=======
+              <Item key={i._id} item={i} type={"single"} />
+              <>
+                {company.map((company) => (
+                  <Company key={company._id} company={company} />
+                ))}
+              </>
+              <AddCart
+                key={"10" + i._id}
+                onClick={() =>
+                  setShoppingCart(
+                    (shoppingCart) => [...shoppingCart, i],
+                    "cart"
+                  )
+                }
+                disabled={
+                  i?.numInStock ===
+                    shoppingCart?.filter((cartItem) => cartItem._id === i._id)
+                      .length || item[0]?.numInStock === 0
+                }
+              >
+                {i?.numInStock ===
+>>>>>>> Stashed changes
                   shoppingCart?.filter((cartItem) => cartItem._id === i._id)
                     .length || item[0]?.numInStock === 0
-              }
-            >
-              {i?.numInStock ===
-                shoppingCart?.filter((cartItem) => cartItem._id === i._id)
-                  .length || item[0]?.numInStock === 0
-                ? "out of stock"
-                : "Add to cart"}
-            </AddCart>
-          </>
-        ))}
-      </ItemHolder>
-    </>
-  );
+                  ? "out of stock"
+                  : "Add to cart"}
+              </AddCart>
+            </>
+          ))}
+        </ItemHolder>
+      </BG>
+    );
+  } else return <Loading />;
 };
 
 const AddCart = styled.button`
@@ -71,6 +99,8 @@ const AddCart = styled.button`
   padding: 5px;
   border-radius: 5px;
   text-align: center;
+  width: fit-content;
+  align-self: center;
 
   margin-top: 1.5%;
   &:disabled {
@@ -80,9 +110,22 @@ const AddCart = styled.button`
 `;
 
 const ItemHolder = styled.div`
-  margin-top: 10%;
-  justify-content: center;
+  align-self: center;
+  min-width: fit-content;
   text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  height: 130%;
+  justify-items: center;
+  padding-bottom: 1%;
+`;
+
+const BG = styled.div`
+  margin: auto;
+  position: relative;
+  // GIFLENS-https://media0.giphy.com/media/sULKEgDMX8LcI/200.gif
 `;
 
 export default SingleItem;

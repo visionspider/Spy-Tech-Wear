@@ -14,7 +14,8 @@ const Company = ({ company }) => {
   );
 };
 const CompanyDiv = styled.div`
-  justify-content: center;
+  margin: auto;
+  width: fit-content;
 `;
 
 export default Company;
