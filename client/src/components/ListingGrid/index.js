@@ -113,21 +113,21 @@ const ListingGrid = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-image: url(/ecommerce.jpg);
+  /* background-image: url(/ecommerce.jpg); */
+  background: lightgrey;
   min-height: 100vh;
 `;
 const Navigation = styled.div`
   width: 100vw;
   height: 40px;
 
-  background: royalblue;
+  background: red;
   display: grid;
   grid-template-columns: 25vw 20vw 20vw 10vw 10vw;
   vertical-align: center;
-  /* background: royalblue; */
 `;
 const Flexbox = styled.div`
-  padding: 0 10vw;
+  padding: 0 5vw;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -135,17 +135,25 @@ const Flexbox = styled.div`
 `;
 const PageNumberList = styled.div`
   height: 40px;
+
   form {
     font-size: 24px;
     height: 40px;
     text-align: center;
   }
   select {
+    font-weight: 800;
     height: 40px;
     text-align: center;
-    background: royalblue;
-    color: goldenrod;
+    background: transparent;
+    color: gold;
+
     font-size: 20px;
+  }
+  &:hover {
+    select {
+      color: goldenrod;
+    }
   }
 `;
 const Button = styled.button`
