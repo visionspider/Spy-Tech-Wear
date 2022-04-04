@@ -74,19 +74,21 @@ const Wrapper = styled.div`
   padding: 15px;
   gap: 2.5px;
   margin-top: 1.5%;
-  animation-duration: 1s;
-  animation-name: slidein;
+  animation: slidein 1s ease-in-out;
 }
 
 @keyframes slidein {
-  from {
+  0% {
     margin-left: 100%;
     width: 30%;
   }
 
-  to {
+  50% {
     margin-left: 0%;
     width: 80%;
+  }
+  100% {
+    margin-left: 30%;
   }
 `;
 
