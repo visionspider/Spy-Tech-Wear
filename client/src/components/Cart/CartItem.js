@@ -34,7 +34,7 @@ const HoverCart = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: auto;
-  gap: 20px;
+  gap: 10px;
 `;
 const Wrapper = styled.div`
   width: 30%;

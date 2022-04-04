@@ -17,13 +17,8 @@ import { CheckoutForm } from "./Forms/CheckoutForm";
 
 import Matrix from "./Matrix";
 //useLocation and going to test out empty result for header
+
 function App() {
-  // useEffect(() => {
-  //   // fetch("/bacon")
-  //   //   .then((res) => res.json())
-  //   //   .then((data) => setBacon(data));
-  // }, []);
-  // useLocation();
   return (
     <>
       <GlobalStyle />
@@ -33,35 +28,35 @@ function App() {
           <Route exact path="/">
             <Index />
           </Route>
-        </Switch>
 
-        {/* <Matrix style={{ zIndex: "-100" }}> */}
-        <Header />
-        <Switch>
-          <Route exact path="/armoury/:page">
-            {/* Home : Listing grid */}
-            <ListingGrid />
-          </Route>
-          {/* {the armoury is the list of items} */}
+          {/* <Matrix style={{ zIndex: "-100" }}> */}
+          <div>
+            <Header />
+            <Route exact path="/armoury/:page">
+              {/* Home : Listing grid */}
+              <ListingGrid />
+            </Route>
+            {/* {the armoury is the list of items} */}
 
-          <Route exact path="/tech-ware/:id">
-            <SingleItem />
-          </Route>
+            <Route exact path="/tech-ware/:id">
+              <SingleItem />
+            </Route>
 
-          <Route exact path="/agent-handler/cart">
-            <Cart />
-          </Route>
-          <Route exact path="/classified">
-            <CheckoutForm />
-          </Route>
+            <Route exact path="/agent-handler/cart">
+              <Cart />
+            </Route>
+            <Route exact path="/classified">
+              <CheckoutForm />
+            </Route>
 
-          {/* <Route exact path="/mission-status/:id">
+            {/* <Route exact path="/mission-status/:id">
             Order status
           </Route> */}
 
-          <Route exact path="/welcome-agent">
-            {/* Confirmation Human Intelligence says your mission was accepted. */}
-          </Route>
+            <Route exact path="/welcome-agent">
+              {/* Confirmation Human Intelligence says your mission was accepted. */}
+            </Route>
+          </div>
         </Switch>
         {/* </Matrix> */}
       </Router>
