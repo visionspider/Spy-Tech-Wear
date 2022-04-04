@@ -58,7 +58,8 @@ const getCompany = async (req, res) => {
 //update all purchased items
 const updateItems = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const itemIdQtyArray = req.body;
+  // const itemIdQtyArray = req.body;
+  const itemIdQtyArray = req.body.data;
   try {
     await client.connect();
     const db = client.db("ecommerce");
