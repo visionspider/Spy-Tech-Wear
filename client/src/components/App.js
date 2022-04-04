@@ -30,7 +30,7 @@ function App() {
           </Route>
 
           {/* <Matrix style={{ zIndex: "-100" }}> */}
-          <div>
+          <>
             <Header />
             <Route exact path="/armoury/:page">
               {/* Home : Listing grid */}
@@ -56,7 +56,7 @@ function App() {
             <Route exact path="/welcome-agent">
               {/* Confirmation Human Intelligence says your mission was accepted. */}
             </Route>
-          </div>
+          </>
         </Switch>
         {/* </Matrix> */}
       </Router>

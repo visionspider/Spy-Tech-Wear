@@ -42,7 +42,7 @@ const Item = ({ item, type }) => {
       <ItemPic src={imageSrc} />
       <p>{name}</p>
       <p>{price}</p>
-      <p>{`x ${cartAmount}`}</p>
+      <p>x&nbsp;{cartAmount}</p>
     </CartWrapper>
   ) : (
     <></>
@@ -50,16 +50,17 @@ const Item = ({ item, type }) => {
 };
 
 const CartWrapper = styled.div`
-  /* display: flex;
-  flex-direction: column;
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* flex-direction: column; */
   width: 40%;
   justify-content: center;
   text-align: center;
   align-items: center;
   margin: auto;
   padding: 15px;
-  gap: 2.5px;
-  margin-top: 1.5%; */
+  gap: 5px;
+  margin-top: 1.5%;
 `;
 
 const Wrapper = styled.div`

@@ -20,6 +20,7 @@ const Cart = ({ type }) => {
     useContext(ShoppingCartContext);
 
   const filteredCart = handleCart();
+  console.log("filtered cart = ", filteredCart);
   console.log(shoppingCart.length);
   if (shoppingCart.length !== 0) {
     if (type === "hover-cart") {
@@ -30,7 +31,7 @@ const Cart = ({ type }) => {
               console.log(item._id);
               return (
                 <HoverItemDiv>
-                  <CartItem key={item._id} item={item} type="hover-cart" />
+                  <CartItem key={item._id * 10} item={item} type="hover-cart" />
 
                   <UnstyledBtn
                     value={item._id}

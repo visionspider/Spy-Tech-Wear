@@ -1,5 +1,6 @@
 import { NavLink, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { SiSpyderide as LockSpy } from "react-icons/si";
 import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
@@ -42,7 +43,7 @@ const Header = () => {
   return (
     <Wrapper>
       <StyledNavLink to={`/armoury/1`}>
-        <img src="client/src/img/logo.png" />
+        <LockSpy style={{ fontSize: "2rem" }} />
         <Title>SPYTECHWEAR</Title>
       </StyledNavLink>
       {/* {search onSubmit or onChange} */}
@@ -137,7 +138,7 @@ const Title = styled.h1`
 `;
 
 const CartLogo = styled(ShoppingCart)`
-  font-size: 2rem;
+  font-size: 3rem;
   /* &:hover {
     font-size: 2.5rem;
   } */

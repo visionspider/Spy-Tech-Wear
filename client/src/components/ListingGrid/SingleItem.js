@@ -51,7 +51,7 @@ const SingleItem = () => {
                 ))}
               </>
               <AddCart
-                key={"10" + i._id}
+                key={i._id}
                 onClick={() =>
                   setShoppingCart(
                     (shoppingCart) => [...shoppingCart, i],
@@ -80,15 +80,30 @@ const SingleItem = () => {
 
 const AddCart = styled.button`
   cursor: ${(p) => (p.disabled ? "cursor" : "pointer")};
-  background-color: red;
-  border: solid 1px red;
-  padding: 5px;
-  border-radius: 5px;
   text-align: center;
   width: fit-content;
   align-self: center;
+  text-decoration: none;
+  color: white;
+  background-color: red;
+  border: solid 1px red;
+  border-bottom: 6px solid orange;
+  border-radius: 4px;
+  padding: 0.8%;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: all 0.1s;
+  &:hover {
+    margin-top: 2px;
+    border-bottom-width: 3px;
+    cursor: ${(p) => (p.disabled ? "cursor" : "pointer")};
+  }
+  &:active {
+    margin-top: 5px;
+    border-bottom-width: 0px;
+  }
 
-  margin-top: 1.5%;
   &:disabled {
     background-color: gray;
     border: solid 1px gray;
