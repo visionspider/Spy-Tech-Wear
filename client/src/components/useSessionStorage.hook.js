@@ -10,7 +10,6 @@ const usePersistedState = (defaultValue, key) => {
   });
 
   useEffect(() => {
-    console.log("value = ", state);
     window.sessionStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
 

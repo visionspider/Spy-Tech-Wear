@@ -14,7 +14,7 @@ const SingleItem = () => {
   const [item, setItem] = useState([]);
   const [company, setCompany] = useState([]);
   const { id } = useParams();
-  // console.log(id);
+
   useEffect(() => {
     fetch(`/api/get-items/${id}`)
       .then((res) => res.json())
@@ -34,9 +34,6 @@ const SingleItem = () => {
         console.log(err, "ERRORCOMP");
       });
   }
-  console.log("item = ", item);
-  console.log("shopping cart = ", shoppingCart);
-  console.log("is stocked = ", isStocked);
 
   if (company?.length !== 0) {
     return (
@@ -44,14 +41,14 @@ const SingleItem = () => {
         <ItemHolder>
           {item.map((i) => (
             <>
-              <Item key={i._id} item={i} type={"single"} />
+              <Item key={i._id * 100000} item={i} type={"single"} />
               <>
                 {company.map((company) => (
-                  <Company key={company._id} company={company} />
+                  <Company key={company._id * 100666650} company={company} />
                 ))}
               </>
               <AddCart
-                key={i._id}
+                key={i._id * 1003230}
                 onClick={() =>
                   setShoppingCart(
                     (shoppingCart) => [...shoppingCart, i],
@@ -126,7 +123,6 @@ const ItemHolder = styled.div`
 const BG = styled.div`
   margin: auto;
   position: relative;
-  // GIFLENS-https://media0.giphy.com/media/sULKEgDMX8LcI/200.gif
 `;
 
 export default SingleItem;

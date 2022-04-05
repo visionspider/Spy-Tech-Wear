@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function ShowButtonHover() {
   const [style, setStyle] = useState({ display: "none" });
-  console.log(style);
+
   return (
     <div>
       <h2>Hidden Button in the box. Move mouse in the box</h2>

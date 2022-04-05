@@ -14,7 +14,7 @@ const CartItem = ({ item, type }) => {
     companyId,
     cartAmount = 0,
   } = item;
-  //   console.log(item);
+
   return type === "hover-cart" ? (
     <HoverCart>
       <p>{name}</p>
