@@ -41,7 +41,7 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <StyledNavLink to={`/armoury/1`}>
+      <StyledNavLink className={"logo"} to={`/armoury/1`}>
         <LockSpy style={{ fontSize: "2rem" }} />
         <Title>SPYTECHWEAR</Title>
       </StyledNavLink>
@@ -87,6 +87,10 @@ const StyledNavLink = styled(NavLink)`
     h1 {
       border-bottom: solid 5px red;
     }
+  }
+
+  &.logo {
+    margin-left: 1%;
   }
 `;
 

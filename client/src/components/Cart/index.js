@@ -48,7 +48,8 @@ const Cart = ({ type }) => {
                     <Minus key={item._id * 16666123} />
                   </UnstyledBtn>
                   <UnstyledBtn
-                    value={item._id * 10005004}
+                    key={item._id * 10005004}
+                    value={item._id}
                     className={
                       item.numInStock ===
                       shoppingCart?.filter(
