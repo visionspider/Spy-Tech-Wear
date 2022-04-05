@@ -5,6 +5,7 @@ import { ItemsContext } from "../MyItemsContext";
 import HomePageItem from "./HomePageItem";
 import PullDownList from "./PullDownList";
 import Loading from "../../Loading";
+import { keyframes } from "styled-components";
 const ListingGrid = () => {
   const {
     itemsArray,
@@ -102,7 +103,11 @@ const ListingGrid = () => {
             })}
         </Flexbox>
       ) : (
-        <H1>No matched items</H1>
+        <NoMatchedItem>
+          <img alt="top secret" src={"/NomatchedItems.png"} />
+
+          <p>Come back later, we may declassify it soon !</p>
+        </NoMatchedItem>
       )}
     </Container>
   ) : (
@@ -167,9 +172,33 @@ const Button = styled.button`
     box-shadow: 0 0 10px;
   }
 `;
-const H1 = styled.h1`
-  color: black;
-  font-size: 48px;
-  margin: 200px 0 0 30vw;
+const textAnimation = keyframes`
+from {
+  background-position: 0
+  }
+  to {
+    background-position: 700px;
+  }`;
+const NoMatchedItem = styled.div`
+  position: relative;
+
+  p {
+    color: black;
+    background: linear-gradient(to right, #4d4d4d 0, white 10%, #4d4d4d 20%);
+    background-position: 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    top: 100px;
+    left: 20vw;
+    font-weight: 900;
+    font-size: 48px;
+    animation: ${textAnimation} 3s infinite forwards;
+  }
+  img {
+    position: absolute;
+    width: 100vw;
+  }
 `;
 export default ListingGrid;
