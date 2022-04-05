@@ -12,7 +12,7 @@ const PullDownList = ({ valueArray, name }) => {
   } = useContext(ItemsContext);
   let optionName = "";
   if (name === "name") {
-    optionName = "Company Name";
+    optionName = "Brand Name";
   }
   if (name === "category") {
     optionName = "Category";

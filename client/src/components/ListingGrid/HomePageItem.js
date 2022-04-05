@@ -2,23 +2,14 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const HomePageItem = ({ item }) => {
-  const {
-    name,
-    price,
-    body_location,
-    category,
-    _id,
-    imageSrc,
-    numInStock,
-    companyId,
-  } = item;
+  const { name, _id, imageSrc } = item;
   return (
     <Wrapper>
       <MyLink to={`/tech-ware/${_id}`}>
         <img src={imageSrc} />
         <div>
-          <p>Category: {category}</p>
-          <p>Body Location: {body_location}</p>
+          {/* <p>Category: {category}</p>
+          <p>Body Location: {body_location}</p> */}
           <p>{name}</p>
         </div>
       </MyLink>
@@ -47,11 +38,13 @@ const Wrapper = styled.div`
     height: 11vw;
     border-radius: 8px;
     background: transparent;
+    padding-top: 5px;
   }
 
   p {
     font-size: 16px;
     color: black;
+    padding-bottom: 5px;
   }
 `;
 
