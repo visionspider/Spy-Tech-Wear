@@ -15,7 +15,7 @@ const Item = ({ item, type }) => {
     companyId,
     cartAmount = 0,
   } = item;
-  //   console.log(item);
+
   return type === "multi" ? (
     <Wrapper>
       <Link to={`/tech-ware/${_id}`}>
@@ -54,8 +54,6 @@ const Item = ({ item, type }) => {
 
 const CartWrapper = styled.div`
   display: flex;
-  /* flex-wrap: wrap; */
-  /* flex-direction: column; */
   width: 40%;
   justify-content: center;
   text-align: center;

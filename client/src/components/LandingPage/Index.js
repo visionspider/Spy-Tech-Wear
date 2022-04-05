@@ -1,21 +1,30 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
-
+import { GiSecretDoor as Secret } from "react-icons/gi";
 const Index = () => {
+  const [msg, setMsg] = useState(true);
   return (
-    // GIFLENS-https://media2.giphy.com/media/Mz6oZpw81uKQg/200.gif
     <Container>
       <Wrapper>
         <Button to="/armoury/1">
-          <Mission>Do you accept this Mission?🔴 👀 🕵🏾‍♀️ </Mission>
-
-          <Frogs
-            src={"https://media0.giphy.com/media/cjiJHyD9Xwd8d6Bb7l/200.gif"}
-          />
-          <BigRedButton
-            src={"https://media1.giphy.com/media/5522aGFLNVRnddYMxJ/200.gif"}
-          />
+          <Mission
+            onMouseLeave={() => setMsg(true)}
+            onMouseEnter={() => {
+              setMsg(false);
+            }}
+          >
+            {msg ? (
+              <>
+                TOP <Secret /> SECRET
+              </>
+            ) : (
+              <>
+                WELCOME AGENT, YOUR<br></br>
+                FIRST MISSION: <Underline>CLICK ME</Underline>
+              </>
+            )}
+          </Mission>
         </Button>
       </Wrapper>
     </Container>
@@ -25,16 +34,21 @@ const Index = () => {
 export default Index;
 
 const Container = styled.div`
-  margin: auto;
-  padding: 5%;
-  background-image: url("https://media2.giphy.com/media/Mz6oZpw81uKQg/200.gif");
+  height: 100vh;
+  background-image: url("https://www.transparenttextures.com/patterns/3px-tile.png");
   background-repeat: space;
   background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 `;
 
 const Wrapper = styled.div`
+  display: flex;
   justify-content: center;
-  /* align-items: center; */
+  height: 100%;
+  width: 100%;
+  align-items: center;
 `;
 
 const Button = styled(NavLink)`
@@ -43,15 +57,34 @@ const Button = styled(NavLink)`
   display: flex;
   flex-direction: column;
   box-shadow: 15px;
-  padding: 350px;
+  border: solid 1px inherit;
+  perspective: 600px;
+  perspective-origin: center top;
 `;
-
+const Underline = styled.span`
+  text-decoration: underline overline line-through;
+`;
 const Mission = styled.h1`
-  color: red;
+  transform: rotateX(45deg);
+  color: #fff;
+  letter-spacing: 2px;
+  animation: mission 1.5s ease-in-out infinite alternate;
   text-align: center;
   font-size: 45px;
-  background-color: black;
-  padding: 15%;
+
+  @keyframes mission {
+    from {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #ff1177,
+        0 0 80px #ff1177, 0 0 90px #ff1177, 0 0 100px #ff1177, 0 0 150px #ff1177;
+    }
+
+    to {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff1177,
+        0 0 35px #ff1177, 0 0 40px #ff1177, 0 0 50px #ff1177, 0 0 75px #ff1177;
+    }
+  }
+  &:active {
+  }
 `;
 
 const BigRedButton = styled.img`
@@ -64,7 +97,6 @@ const BigRedButton = styled.img`
   :hover {
     display: none;
   }
-
 `;
 
 const Frogs = styled.img`

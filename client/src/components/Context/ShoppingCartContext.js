@@ -20,9 +20,6 @@ export const ShoppingCartProvider = ({ children }) => {
     return productIds.map((productId) => {
       return shoppingCart.find((item) => item._id === productId);
     });
-
-    //TEMP
-    // return shoppingCart;
   };
   const updateCart = (id, value) => {
     if (value === "minus") {

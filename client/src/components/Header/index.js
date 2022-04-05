@@ -5,18 +5,26 @@ import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import { ItemsContext } from "../MyItemsContext";
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 import Cart from "../Cart";
 import ResetHomePage from "../ListingGrid/ResetHomePage";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
+<<<<<<< Updated upstream
   const { setRenderArray, setStatus, setPageNumber, setPageNumberArray } =
     useContext(ItemsContext);
+=======
+  const { setRenderArray } = useContext(ItemsContext);
+>>>>>>> Stashed changes
   const [search, setSearch] = useState("");
   const history = useHistory();
   const handleSearch = (ev) => {
     ev.preventDefault();
     if (search.trim() !== "") {
+<<<<<<< Updated upstream
       setStatus("loading");
       fetch(`/api/search-items?keywords=${search}`)
         .then((res) => res.json())
@@ -33,6 +41,18 @@ const Header = () => {
         })
         .catch((error) => {
           setStatus("idle");
+=======
+      fetch(`/api/search-items?keywords=${search}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.message);
+          setRenderArray(data.data);
+          history.push(`/armoury/1`);
+          setSearch("");
+          //add reset here
+        })
+        .catch((error) => {
+>>>>>>> Stashed changes
           console.log(error.message);
         });
     } else {
@@ -138,30 +158,23 @@ const Title = styled.h1`
 `;
 
 const CartLogo = styled(ShoppingCart)`
-  font-size: 3rem;
-  /* &:hover {
-    font-size: 2.5rem;
-  } */
+  width: 100%;
+  font-size: 10vh;
 `;
 const Circle = styled.span`
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  /* font-size: 100%; */
-  height: 20px;
-  width: 20px;
+  font-size: 1.5rem;
+  padding: 5%;
+  height: 100%;
+  width: 50%;
   border-radius: 50%;
   color: white;
   background-color: red;
   &.disappear {
     visibility: hidden;
   }
-
-  /* &:hover {
-    height: 30px;
-    width: 30px;
-    font-size: 1.5rem;
-  } */
 `;
 
 const CartDiv = styled.div`

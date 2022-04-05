@@ -20,20 +20,22 @@ const Cart = ({ type }) => {
     useContext(ShoppingCartContext);
 
   const filteredCart = handleCart();
-  console.log("filtered cart = ", filteredCart);
-  console.log(shoppingCart.length);
   if (shoppingCart.length !== 0) {
     if (type === "hover-cart") {
       return (
         <>
           <Wrapper>
             {filteredCart.map((item) => {
-              console.log(item._id);
               return (
-                <HoverItemDiv>
-                  <CartItem key={item._id * 10} item={item} type="hover-cart" />
+                <HoverItemDiv key={item._id * 16666000}>
+                  <CartItem
+                    key={item._id * 1000000}
+                    item={item}
+                    type="hover-cart"
+                  />
 
                   <UnstyledBtn
+                    key={item._id * 1666666660}
                     value={item._id}
                     onClick={(ev) =>
                       setNoStock(
@@ -43,10 +45,10 @@ const Cart = ({ type }) => {
                       )
                     }
                   >
-                    <Minus />
+                    <Minus key={item._id * 16666123} />
                   </UnstyledBtn>
                   <UnstyledBtn
-                    value={item._id}
+                    value={item._id * 10005004}
                     className={
                       item.numInStock ===
                       shoppingCart?.filter(
@@ -57,7 +59,7 @@ const Cart = ({ type }) => {
                     }
                     onClick={(ev) => updateCart(ev.currentTarget.value, "plus")}
                   >
-                    <Plus />
+                    <Plus key={item._id * 1622222000} />
                   </UnstyledBtn>
                 </HoverItemDiv>
               );
@@ -74,12 +76,12 @@ const Cart = ({ type }) => {
         <>
           <Wrapper>
             {filteredCart.map((item) => {
-              console.log(item._id);
               return (
                 <ItemDiv>
                   <Item key={item._id} item={item} type="cart" />
 
                   <UnstyledBtn
+                    key={item._id * 166669999}
                     value={item._id}
                     onClick={(ev) =>
                       setNoStock(
@@ -89,9 +91,10 @@ const Cart = ({ type }) => {
                       )
                     }
                   >
-                    <Minus />
+                    <Minus key={item._id * 1666623200} />
                   </UnstyledBtn>
                   <UnstyledBtn
+                    key={item._id * 166777700}
                     value={item._id}
                     className={
                       item.numInStock ===
@@ -103,7 +106,7 @@ const Cart = ({ type }) => {
                     }
                     onClick={(ev) => updateCart(ev.currentTarget.value, "plus")}
                   >
-                    <Plus />
+                    <Plus key={item._id * 167770} />
                   </UnstyledBtn>
                 </ItemDiv>
               );
