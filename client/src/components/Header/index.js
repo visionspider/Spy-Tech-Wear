@@ -5,26 +5,17 @@ import { RiSuitcaseFill as ShoppingCart } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../Context/ShoppingCartContext";
 import { ItemsContext } from "../MyItemsContext";
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import Cart from "../Cart";
 import ResetHomePage from "../ListingGrid/ResetHomePage";
 const Header = () => {
   const { shoppingCart } = useContext(ShoppingCartContext);
-<<<<<<< Updated upstream
   const { setRenderArray, setStatus, setPageNumber, setPageNumberArray } =
     useContext(ItemsContext);
-=======
-  const { setRenderArray } = useContext(ItemsContext);
->>>>>>> Stashed changes
   const [search, setSearch] = useState("");
   const history = useHistory();
   const handleSearch = (ev) => {
     ev.preventDefault();
     if (search.trim() !== "") {
-<<<<<<< Updated upstream
       setStatus("loading");
       fetch(`/api/search-items?keywords=${search}`)
         .then((res) => res.json())
@@ -41,18 +32,6 @@ const Header = () => {
         })
         .catch((error) => {
           setStatus("idle");
-=======
-      fetch(`/api/search-items?keywords=${search}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data.message);
-          setRenderArray(data.data);
-          history.push(`/armoury/1`);
-          setSearch("");
-          //add reset here
-        })
-        .catch((error) => {
->>>>>>> Stashed changes
           console.log(error.message);
         });
     } else {
