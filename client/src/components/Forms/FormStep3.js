@@ -82,11 +82,10 @@ export const ConfirmationDetail = ({
               <TableElement key={i}>${item.price * item.quantity}</TableElement>
             ))}
             <TableElement style={{ fontSize: "1.1em" }}>
-              Total: ${" "}
-              {itemsInsideCart.reduce(
-                (total, item) => total + item.price * item.quantity,
-                0
-              )}
+              $
+              {itemsInsideCart
+                .reduce((total, item) => total + item.price * item.quantity, 0)
+                .toFixed(2)}
             </TableElement>
           </TableSecondaryColumn>
         </Table>

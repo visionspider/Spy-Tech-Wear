@@ -1,7 +1,18 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Container, SubTitle, Title } from "./Components/FormStyles";
 
-export const OrderConfirmed = ({ userInformation, itemsInsideCart }) => {
+export const OrderConfirmed = ({
+  userInformation,
+  itemsInsideCart,
+  setShoppingCart,
+}) => {
+  const [cartCopy, setShoppingCartCopy] = useState(itemsInsideCart);
+
+  useEffect(() => {
+    setShoppingCart([]);
+  }, []);
+
   return (
     <Container
       style={{
@@ -35,7 +46,7 @@ export const OrderConfirmed = ({ userInformation, itemsInsideCart }) => {
         <Table>
           <TableMainColumn style={{ flex: "1" }}>
             Product Name
-            {itemsInsideCart.map((item, i) => (
+            {cartCopy.map((item, i) => (
               <TableElement key={i}>{`${item.name.split(" ")[0]} ${
                 item.name.split(" ")[1]
               }...`}</TableElement>
@@ -43,30 +54,31 @@ export const OrderConfirmed = ({ userInformation, itemsInsideCart }) => {
           </TableMainColumn>
           <TableSecondaryColumn>
             Price
-            {itemsInsideCart.map((item, i) => (
-              //Make flexbox Name| amount | cose
+            {cartCopy.map((item, i) => (
               <TableElement key={i}>${item.price}</TableElement>
             ))}
           </TableSecondaryColumn>
           <TableSecondaryColumn>
             Qty
-            {itemsInsideCart.map((item, i) => (
-              //Make flexbox Name| amount | cose
+            {cartCopy.map((item, i) => (
               <TableElement key={i}>x{item.quantity}</TableElement>
             ))}
           </TableSecondaryColumn>
           <TableSecondaryColumn>
             Subtotal
-            {itemsInsideCart.map((item, i) => (
-              //Make flexbox Name| amount | cose
+            {cartCopy.map((item, i) => (
               <TableElement key={i}>${item.price * item.quantity}</TableElement>
             ))}
             <TableElement style={{ fontSize: "1.1em" }}>
               Total: ${" "}
-              {itemsInsideCart.reduce(
-                (total, item) => total + item.price * item.quantity,
-                0
-              )}
+              {(
+                Math.round(
+                  cartCopy.reduce(
+                    (total, item) => total + item.price * item.quantity,
+                    0
+                  ) * 100
+                ) / 100
+              ).toFixed(2)}
             </TableElement>
           </TableSecondaryColumn>
         </Table>

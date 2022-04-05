@@ -17,7 +17,7 @@ import { sumbitForm } from "./Logic/Submit";
 export const CheckoutForm = () => {
   //Form order: ShippingAddress(1) -> PaymentDetail(2) -> ConfirmationDetail(3) -> OrderConfirmed("orderConfirmed") || Error("error")
 
-  const { shoppingCart } = useContext(ShoppingCartContext);
+  const { shoppingCart, setShoppingCart } = useContext(ShoppingCartContext);
 
   // Data that will be sent to the server
   const shoppingMap = {};
@@ -130,20 +130,6 @@ export const CheckoutForm = () => {
     // If isLoading is true, show loading animation
     isLoading === true ? (
       <div>Fetching data...</div>
-    ) : //If loading is false, BUT there are no items inside cart
-    shoppingCart.length === 0 ? (
-      <Form>
-        <div
-          style={{
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          There are no items inside your cart!
-        </div>
-      </Form>
     ) : (
       //If loading is false && there are item(s) inside cart
       <Form
@@ -218,6 +204,7 @@ export const CheckoutForm = () => {
         {formStep === 200 && (
           <OrderConfirmed
             userInformation={userInformation}
+            setShoppingCart={setShoppingCart}
             itemsInsideCart={Object.values(shoppingMap)}
           />
         )}
