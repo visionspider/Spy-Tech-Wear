@@ -192,6 +192,7 @@ export const PaymentDetail = ({
         </Button>
         {/* Button to go to next page */}
         <Button
+          disabled={validUserInformation === true ? false : true}
           style={{
             cursor: `${validUserInformation === true ? "pointer" : "initial"}`,
             backgroundColor: `${

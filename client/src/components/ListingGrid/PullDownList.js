@@ -59,7 +59,12 @@ const PullDownList = ({ valueArray, name }) => {
   };
   return (
     <Form>
-      <select id={name} className="PullDown" onChange={handleSelect}>
+      <select
+        style={{ cursor: "pointer" }}
+        id={name}
+        className="PullDown"
+        onChange={handleSelect}
+      >
         <option value="">{optionName}</option>
         {valueArray.map((value) => {
           return (

@@ -98,6 +98,7 @@ export const ConfirmationDetail = ({
         }}
       >
         <Button
+        
           style={{
             cursor: "pointer",
             backgroundColor: "hsl(204, 8%, 76%)",

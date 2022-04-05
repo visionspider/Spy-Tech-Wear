@@ -77,6 +77,7 @@ const ListingGrid = () => {
         <PageNumberList>
           <form>
             <select
+              style={{ cursor: "pointer" }}
               id="selectNumber"
               className="PullDown"
               onChange={handlePageNumberSelect}
@@ -92,7 +93,9 @@ const ListingGrid = () => {
             </select>
           </form>
         </PageNumberList>
-        <Button onClick={handleResetAll}>Show all</Button>
+        <Button style={{ cursor: "pointer" }} onClick={handleResetAll}>
+          Show all
+        </Button>
       </Navigation>
       {renderArray.length ? (
         <Flexbox>
